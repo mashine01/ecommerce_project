@@ -50,13 +50,14 @@ class CategoryController extends Controller
         $validated = $validator->validated();
         $validated['created_by'] = auth()->user()->email;
         $validated['show_on_menu'] = $request->input('show_on_menu') ? true : false;
+        $validated['show_on_side_menu'] = $request->input('show_on_side_menu') ? true : false;
         $newVendor = Category::create($validated);
         return (redirect(route("categories")));
     }
 
     public function edit(Category $category)
     {
-        return view("dashboard.categories.edit", ["category" => $category]);
+        return view("dashboard.categories.create", ["category" => $category]);
     }
 
     public function update(Category $category, Request $request)
@@ -80,6 +81,7 @@ class CategoryController extends Controller
 
         $validated = $validator->validated();
         $validated['show_on_menu'] = $request->input('show_on_menu') ? true : false;
+        $validated['show_on_side_menu'] = $request->input('show_on_side_menu') ? true : false;
         $category->update($validated);
         return redirect()->route('categories')->with('success', 'Category updated successfully');
     }

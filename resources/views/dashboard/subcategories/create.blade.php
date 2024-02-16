@@ -1,7 +1,6 @@
 @extends('dashboard.layouts.admin_panel_view')
 
 @section('content')
-
     <head>
         <link rel="stylesheet" href="/assets/dashboard/css/froala_editor.css">
         <link rel="stylesheet" href="/assets/dashboard/css/froala_style.css">
@@ -23,8 +22,8 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{ isset($category) ? route('categories.update',['category'=>$category]) : route('categories.store') }}" method="POST" enctype="multipart/form-data">
-                            @if (isset($category))
+                        <form action="{{ isset($subcategory) ? route('subcategories.update',['subcategory'=>$subcategory]) : route('subcategories.store') }}" method="POST" enctype="multipart/form-data">
+                            @if (isset($subcategory))
                                 @method('PUT')
                             @else
                                 @method('POST')
@@ -34,11 +33,16 @@
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" class="form-control" id="name"
-                                    placeholder="Enter Category Name" value="{{isset($category) ? $category->name : ''}}" required>
+                                    placeholder="Enter Sub-Category" value="{{isset($subcategory) ? $subcategory->name : ''}}" required>
                                 </div>
-                                <div>
-                                    <label for="show_on_menu" class="form-check-label">Show on Menu</label>
-                                    <input type="checkbox" name="show_on_menu" class="form-check-input" id="show_on_menu" value="1" {{ isset($category) && $category->show_on_menu == 1 ? 'checked' : '' }}>
+                                <div class="form-group">
+                                    <label for="category_id">Category</label>
+                                    <select name="category_id" class="form-control" id="category_id" required>
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" {{ isset($subcategory) && $subcategory->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <!-- /.card-body -->

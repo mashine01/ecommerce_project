@@ -36,9 +36,13 @@
                                     <input type="text" name="name" class="form-control" id="name"
                                     placeholder="Enter Category Name" value="{{isset($category) ? $category->name : ''}}" required>
                                 </div>
-                                <div>
-                                    <label for="show_on_menu" class="form-check-label">Show on Menu</label>
+                                <div class="form-check">
                                     <input type="checkbox" name="show_on_menu" class="form-check-input" id="show_on_menu" value="1" {{ isset($category) && $category->show_on_menu == 1 ? 'checked' : '' }}>
+                                    <label for="show_on_menu" class="form-check-label">Show on Menu</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="show_on_side_menu" class="form-check-input" id="show_on_side_menu" value="1" {{ isset($category) && $category->show_on_side_menu == 1 ? 'checked' : '' }}>
+                                    <label for="show_on_side_menu" class="form-check-label">Show on Side Menu</label>
                                 </div>
                             </div>
                             <!-- /.card-body -->

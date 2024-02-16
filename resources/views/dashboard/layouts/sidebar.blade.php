@@ -131,6 +131,29 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <p>
+                        Sub-Category Management
+                        <i class="right fas fa-arrow-alt-circle-up"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('subcategories.create') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>Add New Sub-Category</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('subcategories') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>List of Sub-Categories</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>
                         Product Management
                         <i class="right fas fa-arrow-alt-circle-up"></i>
                     </p>

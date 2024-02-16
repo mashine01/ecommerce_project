@@ -24,7 +24,7 @@
         <form id="deleteForm" method="POST" action="">
             @csrf
             @method('DELETE')
-            <button onclick="event.preventDefault(); deleteSelected('{{ route('categories.delete', ['selectedIds' => '']) }}')" type="submit">Delete Selected</button>
+            <button onclick="event.preventDefault(); deleteSelected('{{ route('subcategories.delete', ['selectedIds' => '']) }}')" type="submit">Delete Selected</button>
         </form>
         <div class="container-fluid">
             <div class="row">
@@ -39,35 +39,28 @@
                                 <thead>
                                     <tr>
                                         <th>Select</th>
+                                        <th>Sub-Category</th>
                                         <th>Category</th>
-                                        <th>Show In Menu</th>
                                         <th>Created By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($categories as $category)
+                                    @foreach ($subcategories as $subcategory)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="categories[]" value="{{ $category->id }}">
+                                                <input type="checkbox" name="subcategories[]" value="{{ $subcategory->id }}">
                                             </td>
                                             <td>
-                                                {{ $category->name }}
+                                                {{ $subcategory->name }}
                                             </td>
                                             <td>
-                                                {{ $category->show_on_menu == 1 ? 'Yes' : 'No' }}
+                                                {{ $subcategory->category->name }}
                                             </td>
                                             <td>
-                                                {{ $category->created_by }}
+                                                {{ $subcategory->created_by }}
                                             </td>
-                                            {{-- <td class="text-center">
-                                            @if ($list->status == 1)
-                                                <span class="badge badge-success center" data-original-title="Active">Active</span>
-                                            @else
-                                                <span class="badge badge-danger center" data-original-title="Active">Inactive</span>
-                                            @endif
-                                        </td> --}}
                                             <td><a type="button"
-                                                    href="{{ route('categories.edit', [$category->id]) }}"
+                                                    href="{{ route('subcategories.edit', [$subcategory->id]) }}"
                                                     class="msg-pencil-icon tooltips" data-original-title="Edit">
                                                     <i class="fa fa-edit" aria-hidden="true"
                                                         style="font-size: 17px">

@@ -12,6 +12,7 @@ use App\Http\Controllers\TopSellingController;
 use App\Http\Controllers\TrendingController;
 use App\Http\Controllers\TrendingCategoryController;
 use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\SubCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,15 +28,29 @@ use App\Http\Controllers\ProductVariantController;
 
 Route::get('/index', [FrontController::class, 'index'])->name('index');
 Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
+Route::get('/account', [FrontController::class, 'account'])->name('account');
 Route::redirect('/', '/index');
 
-route::middleware('IsAdmin')->group(function () {
+Route::middleware(['auth'])->group(function () {
+    Route::get('/account', [FrontController::class, 'account'])->name('account');
+});
+
+
+Route::middleware('IsAdmin')->group(function () {
     Route::get('/dashboard/categories', [CategoryController::class, 'index'])->name('categories');
     Route::get('/dashboard/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/dashboard/categories/store', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('/dashboard/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/dashboard/categories/{category}/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/dashboard/categories/delete', [CategoryController::class, 'delete'])->name('categories.delete');
+
+    //SubCategory
+    Route::get('/dashboard/subcategories', [SubCategoryController::class, 'index'])->name('subcategories');
+    Route::get('/dashboard/subcategories/create', [SubCategoryController::class, 'create'])->name('subcategories.create');
+    Route::post('/dashboard/subcategories/store', [SubCategoryController::class, 'store'])->name('subcategories.store');
+    Route::get('/dashboard/subcategories/{subcategory}/edit', [SubCategoryController::class, 'edit'])->name('subcategories.edit');
+    Route::put('/dashboard/subcategories/{subcategory}/update', [SubCategoryController::class, 'update'])->name('subcategories.update');
+    Route::delete('/dashboard/subcategories/delete', [SubCategoryController::class, 'delete'])->name('subcategories.delete');
 
     Route::get('/dashboard/brands', [BrandController::class, 'index'])->name('brands');
     Route::get('/dashboard/brands/create', [BrandController::class, 'create'])->name('brands.create');

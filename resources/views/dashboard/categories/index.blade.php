@@ -41,6 +41,7 @@
                                         <th>Select</th>
                                         <th>Category</th>
                                         <th>Show In Menu</th>
+                                        <th>Show In Side Menu</th>
                                         <th>Created By</th>
                                     </tr>
                                 </thead>
@@ -55,6 +56,9 @@
                                             </td>
                                             <td>
                                                 {{ $category->show_on_menu == 1 ? 'Yes' : 'No' }}
+                                            </td>
+                                            <td>
+                                                {{ $category->show_on_side_menu == 1 ? 'Yes' : 'No' }}
                                             </td>
                                             <td>
                                                 {{ $category->created_by }}

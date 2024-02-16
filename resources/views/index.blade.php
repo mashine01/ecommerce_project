@@ -31,7 +31,7 @@
 
             <div class="brands-border owl-carousel owl-simple" data-toggle="owl"
                 data-owl-options='{
-                    "nav": false, 
+                    "nav": false,
                     "dots": false,
                     "margin": 0,
                     "loop": false,
@@ -97,7 +97,6 @@
                                         <a href="#">
                                             <img src="{{ $banner->banner_path }}" alt="Banner">
                                         </a>
-
                                         <div class="banner-content banner-content-top">
                                             <h4 class="banner-subtitle">{{ $banner->banner_subtitle }}</h4>
                                             <!-- End .banner-subtitle -->
@@ -187,9 +186,9 @@
             <div class="tab-content tab-content-carousel">
                 @foreach ($trendingsCategories as $category)
                     <div class="tab-pane p-0 fade {{ $loop->first ? 'show active' : '' }}" id="products-{{ strtolower($category->name) }}-tab" role="tabpanel" aria-labelledby="products-{{ strtolower($category->name) }}-link">
-                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
                             data-owl-options='{
-                                "nav": false, 
+                                "nav": false,
                                 "dots": true,
                                 "margin": 20,
                                 "loop": false,
@@ -223,12 +222,12 @@
                                                 <img src="{{ $product->image_path }}" alt="{{ $product->name }}" class="product-image">
                                                 {{-- <img src="{{ $product->hover_image }}" alt="{{ $product->name }}" class="product-image-hover"> --}}
                                             </a>
-                    
+
                                             <div class="product-action-vertical">
                                                 <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
                                             </div><!-- End .product-action-vertical -->
                                         </figure><!-- End .product-media -->
-                    
+
                                         <div class="product-body">
                                             <h3 class="product-title"><a href="#">{{ $product->name }}</a></h3><!-- End .product-title -->
                                             <div class="product-price">
@@ -267,7 +266,7 @@
                             </li>
                         @endif
                     @endforeach
-                
+
                 </ul>
             </div><!-- End .heading -->
 
@@ -284,12 +283,12 @@
                                             <img src="{{ $topSelling->product->image_path }}" alt="Product image" class="product-image">
                                             {{-- <img src="{{ $topSelling->product->images['hover'] }}" alt="Product image" class="product-image-hover"> --}}
                                         </a>
-                        
+
                                         <div class="product-action-vertical">
                                             <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
                                         </div><!-- End .product-action-vertical -->
                                     </figure><!-- End .product-media -->
-                        
+
                                     <div class="product-body">
                                         <div class="product-cat">
                                             <a href="#">{{ $topSelling->product->category->name }}</a>
@@ -306,7 +305,7 @@
                             </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
                         @endif
                         @endforeach
-                        
+
                         </div><!-- End .row -->
                     </div><!-- End .products -->
                 </div><!-- .End .tab-pane -->
@@ -328,12 +327,12 @@
                                                     <img src="{{ asset($product->image_path) }}" alt="Product image" class="product-image">
                                                     {{-- <img src="{{ asset($product->hover_image) }}" alt="Product image" class="product-image-hover"> --}}
                                                 </a>
-                
+
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
                                                 </div><!-- End .product-action-vertical -->
                                             </figure><!-- End .product-media -->
-                
+
                                             <div class="product-body">
                                                 <div class="product-cat">
                                                     <a href="#">{{ $product->category->name }}</a>
@@ -358,7 +357,7 @@
                         </div><!-- End .products -->
                     </div><!-- .End .tab-pane -->
                 @endforeach
-            
+
             </div><!-- End .tab-content -->
         </div><!-- End .container -->
         <div class="container">
@@ -372,7 +371,7 @@
 
             <div class="owl-carousel owl-simple carousel-with-shadow" data-toggle="owl"
                 data-owl-options='{
-                            "nav": false, 
+                            "nav": false,
                             "dots": true,
                             "items": 3,
                             "margin": 20,
