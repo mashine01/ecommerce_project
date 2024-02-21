@@ -24,6 +24,10 @@ class Product extends Model
         'created_by',
     ];
 
+    public function variants() {
+        return $this->hasMany(ProductVariant::class, 'style_code', 'style_code');
+    }
+
     public function vendor() {
         return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
     }
@@ -31,13 +35,9 @@ class Product extends Model
     public function brand() {
         return $this->belongsTo(Brand::class, 'brand_id', 'id');
     }
-    
+
     public function category() {
         return $this->belongsTo(Category::class, 'category_id', 'id');
-    }
-
-    public function variants() {
-        return $this->hasMany(ProductVariant::class, 'style_code', 'style_code');
     }
 
     public function trendings() {

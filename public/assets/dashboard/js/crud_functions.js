@@ -11,6 +11,6 @@ function deleteSelected(route) {
         deleteForm.action = route + encodeURIComponent(JSON.stringify(selectedCheckbox));
         deleteForm.submit();
     } else {
-        alert('Please select a vendor to delete');
+        alert('Please select an item to delete');
     }
 }

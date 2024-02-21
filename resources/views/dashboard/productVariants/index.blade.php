@@ -84,6 +84,14 @@
                                             <td>
                                                 {{ $product->created_by }}
                                             </td>
+                                            <td><a type="button"
+                                                href="{{ route('productVariants.edit', [$product->id]) }}"
+                                                class="msg-pencil-icon tooltips" data-original-title="Edit">
+                                                <i class="fa fa-edit" aria-hidden="true"
+                                                    style="font-size: 17px">
+                                                </i>
+                                            </a>&nbsp;&nbsp;
+                                        </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

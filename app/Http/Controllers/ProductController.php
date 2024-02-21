@@ -35,6 +35,44 @@ class ProductController extends Controller
         return redirect()->route('products')->with('success', 'Product image added successfully');
     }
 
+    public function edit(Product $product) {
+        $vendors = Vendor::all();
+        $brandsByVendor = [];
+        foreach ($vendors as $vendor) {
+            $brandsByVendor[$vendor->id] = Brand::select('name','id')
+            ->where('vendor_id', $vendor->id)
+            ->pluck('name', 'id');
+        }
+        return view('dashboard.products.edit')
+            ->with('product', $product)
+            ->with('categories', Category::all())
+            ->with('vendors', $vendors)
+            ->with('brands', Brand::all())
+            ->with('brandsByVendor', $brandsByVendor);
+    }
+
+    public function update(Product $product, Request $request) {
+        $validate = Validator::make($request->all(), [
+            'name' => 'required',
+            'style_code' => 'required',
+            'category_id' => 'required',
+            'vendor_id' => 'required',
+            'brand_id' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect(route('products'))
+                ->withErrors($validate)
+                ->withInput();
+        }
+
+        $validator = $validate->validated();
+        $product->update($validator);
+        return redirect(route('products'))->with('success', 'Product updated successfully');
+    }
+
     public function delete(Request $request)
     {
         try {

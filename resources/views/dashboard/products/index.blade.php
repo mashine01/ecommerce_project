@@ -52,9 +52,11 @@
                                 <thead>
                                     <tr>
                                         <th>Select</th>
+                                        <th>Image</th>
                                         <th>Product Name</th>
                                         <th>Product Description</th>
                                         <th>Price</th>
+                                        <th>Discount Price</th>
                                         <th>Brand</th>
                                         <th>Vendor</th>
                                         <th>Category</th>
@@ -69,6 +71,11 @@
                                             <td>
                                                 <input type="checkbox" name="products[]" value="{{ $product->id }}">
                                             </td>
+                                            <td class="table-cell">
+                                                <div class="text-center">
+                                                    <img class="img-fluid prod_img" src="{{ asset($product->image_path) }}" alt="Add Image" onclick="openAddImageModal({{ $product->id }})">
+                                                </div>
+                                            </td>
                                             <td>
                                                 {{ $product->name }}
                                             </td>
@@ -76,6 +83,9 @@
                                                 {{ $product->description }}
                                             <td>
                                                 {{ $product->price }}
+                                            </td>
+                                            <td>
+                                                {{ $product->discount_price }}
                                             </td>
                                             <td>
                                                 {{ $product->brand->name }}
@@ -95,6 +105,14 @@
                                             <td>
                                                 {{ $product->created_by }}
                                             </td>
+                                            <td><a type="button"
+                                                href="{{ route('products.edit', [$product->id]) }}"
+                                                class="msg-pencil-icon tooltips" data-original-title="Edit">
+                                                <i class="fa fa-edit" aria-hidden="true"
+                                                    style="font-size: 17px">
+                                                </i>
+                                            </a>&nbsp;&nbsp;
+                                        </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -172,6 +190,32 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="addImageModal" tabindex="-1" role="dialog" aria-labelledby="addImageModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addImageModalLabel">Add/Edit Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('products.addImage') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="product_id" id="product_id">
+                        <div class="form-group">
+                            <label for="image">Select Image</label>
+                            <input type="file" class="form-control-file" id="image" name="image"
+                                accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload Image</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -195,5 +239,10 @@
         $('.buttons-excel').click(function() {
             $('#uploadModal').modal('show');
         });
+
+        function openAddImageModal(productId) {
+            document.getElementById('product_id').value = productId;
+            $('#addImageModal').modal('show');
+        }
     </script>
 @endsection

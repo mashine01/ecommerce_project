@@ -67,6 +67,8 @@ Route::middleware('IsAdmin')->group(function () {
     Route::delete('/dashboard/vendors/delete', [VendorController::class, 'delete'])->name('vendors.delete');
 
     Route::get('/dashboard/products', [ProductController::class, 'index'])->name('products');
+    Route::get('/dashboard/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/dashboard/products/{product}/update', [ProductController::class, 'update'])->name('products.update');
     Route::get('/dashboard/products/download', [ProductController::class, 'download'])->name('products.download');
     Route::post('/dashboard/products/upload', [ProductController::class, 'upload'])->name('products.upload');
     Route::post('/dashboard/products/addImage', [ProductController::class, 'addImage'])->name('products.addImage');
@@ -77,8 +79,8 @@ Route::middleware('IsAdmin')->group(function () {
     Route::post('/dashboard/productVariants/upload', [ProductVariantController::class, 'upload'])->name('productVariants.upload');
     Route::get('/dashboard/productVariants/create', [ProductVariantController::class, 'create'])->name('productVariants.create');
     Route::post('/dashboard/productVariants/store', [ProductVariantController::class, 'store'])->name('productVariants.store');
-    Route::get('/dashboard/productVariants/{product}/edit', [ProductVariantController::class, 'edit'])->name('productVariants.edit');
-    Route::put('/dashboard/productVariants/{product}/update', [ProductVariantController::class, 'update'])->name('productVariants.update');
+    Route::get('/dashboard/productVariants/{variant}/edit', [ProductVariantController::class, 'edit'])->name('productVariants.edit');
+    Route::put('/dashboard/productVariants/{variant}/update', [ProductVariantController::class, 'update'])->name('productVariants.update');
     Route::delete('/dashboard/productVariants/delete', [ProductVariantController::class, 'delete'])->name('productVariants.delete');
 
     Route::get('/dashboard/banners', [BannerController::class, 'index'])->name('banners');

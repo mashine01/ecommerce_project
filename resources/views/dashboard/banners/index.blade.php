@@ -32,7 +32,7 @@
                                     <form id="deleteForm" method="POST" action="">
                                         @csrf
                                         @method('DELETE')
-                                        <button onclick="event.preventDefault(); deleteSelected('{{ route('categories.delete', ['selectedIds' => '']) }}')" type="submit" class="btn btn-danger float-right">Delete Selected</button>
+                                        <button onclick="event.preventDefault(); deleteSelected('{{ route('banners.delete', ['selectedIds' => '']) }}')" type="submit" class="btn btn-danger float-right">Delete Selected</button>
                                     </form>
                                 </div>
                             </div>
@@ -43,32 +43,40 @@
                                 <thead>
                                     <tr>
                                         <th>Select</th>
-                                        <th>Category</th>
-                                        <th>Show In Menu</th>
-                                        <th>Show In Side Menu</th>
+                                        <th>Banner Image</th>
+                                        <th>Banner Title</th>
+                                        <th>Banner Subtitle</th>
+                                        <th>Banner Type</th>
+                                        <th>Priority</th>
                                         <th>Created By</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($categories as $category)
+                                    @foreach ($banners as $banner)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="categories[]" value="{{ $category->id }}">
+                                                <input type="checkbox" name="banners[]" value="{{ $banner->banner_id }}">
                                             </td>
                                             <td>
-                                                {{ $category->name }}
+                                                <img src="{{ asset($banner->banner_path) }}" alt="Banner Image"
+                                                    style="width: 50px; height: 50px;">
+                                            <td>
+                                                {{ $banner->banner_title }}
                                             </td>
                                             <td>
-                                                {{ $category->show_on_menu == 1 ? 'Yes' : 'No' }}
+                                                {{ $banner->banner_subtitle }}
+                                            <td>
+                                                {{ $banner->banner_type }}
                                             </td>
                                             <td>
-                                                {{ $category->show_on_side_menu == 1 ? 'Yes' : 'No' }}
+                                                {{ $banner->priority }}
                                             </td>
                                             <td>
-                                                {{ $category->created_by }}
+                                                {{ $banner->created_by }}
                                             </td>
                                             <td><a type="button"
-                                                    href="{{ route('categories.edit', [$category->id]) }}"
+                                                    href="{{ route('banners.edit', [$banner->banner_id]) }}"
                                                     class="msg-pencil-icon tooltips" data-original-title="Edit">
                                                     <i class="fa fa-edit" aria-hidden="true"
                                                         style="font-size: 17px">
@@ -108,24 +116,5 @@
     <script src="/assets/dashboard/plugins/pdfmake/vfs_fonts.js"></script>
     <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-    </script>
+    <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 @endsection

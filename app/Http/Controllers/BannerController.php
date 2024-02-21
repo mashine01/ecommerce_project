@@ -68,7 +68,7 @@ class BannerController extends Controller
 
     public function edit(Banner $banner)
     {
-        return view("dashboard.banners.edit", ["banner" => $banner]);
+        return view("dashboard.banners.create", ["banner" => $banner]);
     }
 
     public function update(Banner $banner, Request $request)

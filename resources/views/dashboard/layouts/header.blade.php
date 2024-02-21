@@ -3,7 +3,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/" class="nav-link">Home</a>
@@ -13,12 +13,6 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <?php
-                    if(\Illuminate\Support\Facades\Auth::user() == null || \Illuminate\Support\Facades\Auth::user() == '') {
-                        return \Illuminate\Support\Facades\Redirect::route('login');
-                    }
-                ?>
-
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
     {{--                <img src="/assets/dashboard/dist/img/admin_logo.jpg">--}}
                     {{ Auth::user()->fullname }} <span class="caret"></span>
