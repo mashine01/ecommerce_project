@@ -13,28 +13,24 @@ class ProductVariantController extends Controller
 {
     public function index() {
         $variants = ProductVariant::all();
-        return view('dashboard.product_variants.index')
+        return view('dashboard.productVariants.index')
         ->with('variants', $variants);
     }
 
-    public function create() {
-        return view('dashboard.product_variants.create');
-    }
-
-    public function delete(Request $request) 
+    public function delete(Request $request)
     {
         $ids = json_decode($request->input('selectedIds'));
         ProductVariant::destroy($ids);
         return redirect()->route('productVariants')->with('success', 'Product Variants deleted successfully!');
     }
 
-    public function import(Request $request)
+    public function upload(Request $request)
     {
         try {
             $this->validate($request, [
-                'importFile' => 'required|mimes:xlsx|max:2048',
+                'excelFile' => 'required|mimes:xlsx|max:2048',
             ]);
-            Excel::import(new VariantImport(), $request->file('importFile'));
+            Excel::import(new VariantImport(), $request->file('excelFile'));
             return redirect()->route('productVariants')->with('success', 'Import successful!');
         } catch (ValidationException $e) {
             return redirect(route('productVariants'))
@@ -46,13 +42,13 @@ class ProductVariantController extends Controller
                 ->with('error', 'An error occurred during import: ' . $e->getMessage());
         }
     }
-    
-    public function export(Request $request)
+
+    public function download(Request $request)
     {
-        $exportOption = $request->input('exportOption');
-        if ($exportOption == 'withData') {
+        $exportOption = $request->input('download');
+        if ($exportOption == 'WithData') {
             return Excel::download(new VariantExport(true), 'productVariants_with_Data.xlsx');
-        } elseif ($exportOption == 'withoutData') {
+        } elseif ($exportOption == 'WithoutData') {
             return Excel::download(new VariantExport(false), 'productVariants_without_data.xlsx');
         }
     }

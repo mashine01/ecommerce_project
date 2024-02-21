@@ -1,7 +1,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{"Hello"}}</title>
+  <title>{{ ucfirst(basename(Request::url())) }}</title>
 
   <link rel="icon" href="/assets/dashboard/dist/img/AdminLTELogo.png">
   <!-- Google Font: Source Sans Pro -->

@@ -21,17 +21,23 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
-        <form id="deleteForm" method="POST" action="">
-            @csrf
-            @method('DELETE')
-            <button onclick="event.preventDefault(); deleteSelected('{{ route('subcategories.delete', ['selectedIds' => '']) }}')" type="submit">Delete Selected</button>
-        </form>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">{{ 'Hello' }}</h3>
+                            <div class="row">
+                                <div class="col"></div>
+                                <div class="col-auto">
+                                    <form id="deleteForm" method="POST" action="">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
+                                            onclick="event.preventDefault(); deleteSelected('{{ route('subcategories.delete', ['selectedIds' => '']) }}')"
+                                            type="submit" class="btn btn-danger float-right">Delete Selected</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -48,7 +54,8 @@
                                     @foreach ($subcategories as $subcategory)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="subcategories[]" value="{{ $subcategory->id }}">
+                                                <input type="checkbox" name="subcategories[]"
+                                                    value="{{ $subcategory->id }}">
                                             </td>
                                             <td>
                                                 {{ $subcategory->name }}
@@ -62,8 +69,7 @@
                                             <td><a type="button"
                                                     href="{{ route('subcategories.edit', [$subcategory->id]) }}"
                                                     class="msg-pencil-icon tooltips" data-original-title="Edit">
-                                                    <i class="fa fa-edit" aria-hidden="true"
-                                                        style="font-size: 17px">
+                                                    <i class="fa fa-edit" aria-hidden="true" style="font-size: 17px">
                                                     </i>
                                                 </a>&nbsp;&nbsp;
                                             </td>
@@ -100,24 +106,4 @@
     <script src="/assets/dashboard/plugins/pdfmake/vfs_fonts.js"></script>
     <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-    </script>
 @endsection

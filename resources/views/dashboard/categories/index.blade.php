@@ -21,17 +21,21 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
-        <form id="deleteForm" method="POST" action="">
-            @csrf
-            @method('DELETE')
-            <button onclick="event.preventDefault(); deleteSelected('{{ route('categories.delete', ['selectedIds' => '']) }}')" type="submit">Delete Selected</button>
-        </form>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">{{ 'Hello' }}</h3>
+                            <div class="row">
+                                <div class="col"></div>
+                                <div class="col-auto">
+                                    <form id="deleteForm" method="POST" action="">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button onclick="event.preventDefault(); deleteSelected('{{ route('categories.delete', ['selectedIds' => '']) }}')" type="submit" class="btn btn-danger float-right">Delete Selected</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">

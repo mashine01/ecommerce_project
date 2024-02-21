@@ -65,8 +65,8 @@ class ProductImport implements ToModel, WithHeadingRow
             $brand = verifyDataExists(Brand::class, "name", $row["brand_name"]);
             $category = verifyDataExists(Category::class, "name", $row["category_name"]);
 
-            $style_code = strtoupper(substr($row['brand_name'], 0, 2)) 
-            . "-" 
+            $style_code = strtoupper(substr($row['brand_name'], 0, 2))
+            . "-"
             . $row['vendor_style_code'];
 
             Product::updateOrCreate(
@@ -83,7 +83,7 @@ class ProductImport implements ToModel, WithHeadingRow
                     'vendor_style_code' => $row['vendor_style_code'],
                     'style_code' => $style_code,
                     'created_by' => auth()->user()->email,
-                 
+
                 ]
             );
         } catch (\Exception $e) {

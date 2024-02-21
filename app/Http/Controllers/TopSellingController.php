@@ -12,14 +12,15 @@ class TopSellingController extends Controller
     public function index()
     {
         $topSellings = TopSelling::all();
-        return view('dashboard.topSelling.index', compact('topSellings'));
+        return view('dashboard.topSelling.index')
+            ->with('topSellings', $topSellings);
     }
 
     public function create()
     {
-        $products = Product::all();
+        $products = Product::select('style_code')->get();
         return view('dashboard.topSelling.create')
-        ->with('products', $products);
+            ->with('products', $products);
     }
 
     public function store(Request $request)
@@ -36,7 +37,7 @@ class TopSellingController extends Controller
                     'style_code.required' => 'The style code field is required for ' . $styleCode . '.',
                 ]
             );
-        
+
             if ($validator->fails()) {
                 return redirect()->route('topSelling.create')
                     ->withErrors($validator)
@@ -46,10 +47,11 @@ class TopSellingController extends Controller
             $validated['created_by'] = auth()->user()->email;
             TopSelling::updateOrCreate(
                 ['style_code' => $styleCode],
-                $validated);
-        }        
+                $validated
+            );
+        }
         return redirect()->route('topSelling')
-        ->with('success', 'Top selling added successfully.');
+            ->with('success', 'Top selling added successfully.');
     }
 
     public function delete(Request $request)
@@ -57,6 +59,6 @@ class TopSellingController extends Controller
         $ids = json_decode($request->selectedIds);
         TopSelling::destroy($ids);
         return redirect()->route('topSelling')
-        ->with('success', 'Top selling deleted successfully.');
+            ->with('success', 'Top selling deleted successfully.');
     }
 }

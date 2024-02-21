@@ -14,16 +14,17 @@ class TrendingController extends Controller
     public function index()
     {
         $trendings = Trending::all();
-        return view('dashboard.trendings.index', compact('trendings'));
+        return view('dashboard.trendings.index')
+            ->with('trendings', $trendings);
     }
 
     public function create()
     {
         $products = Product::all();
-        $trendingCategory = TrendingCategory::all();
+        $trendingCategories = TrendingCategory::all();
         return view('dashboard.trendings.create')
-        ->with('products', $products)
-        ->with('trendingCategory', $trendingCategory);
+            ->with('products', $products)
+            ->with('trendingCategories', $trendingCategories);
     }
 
     public function store(Request $request)
@@ -45,33 +46,35 @@ class TrendingController extends Controller
                 'trending_category.required' => "Please select trending category",
             ]
         );
-        
+
         if ($validator->fails()) {
             return redirect()->route('trendings.create')
                 ->withErrors($validator)
                 ->withInput();
         }
-        
+
         $styleCodes = $request->input('style_code');
         $trendingCategories = $request->input('trending_category');
-        
+
         foreach ($styleCodes as $styleCode) {
             foreach ($trendingCategories as $category) {
                 Trending::create([
                     'style_code' => $styleCode,
                     'categories' => $category,
+                    'created_by' => auth()->user()->email,
                 ]);
             }
         }
 
         return redirect()->route('trendings')
-        ->with('success', 'Trending added successfully.');
+            ->with('success', 'Trending added successfully.');
     }
 
-    public function delete (Request $request) {
+    public function delete(Request $request)
+    {
         $ids = json_decode($request->selectedIds);
         Trending::destroy($ids);
         return redirect()->route('trendings')
-        ->with('success', 'Trending deleted successfully.');
+            ->with('success', 'Trending deleted successfully.');
     }
 }

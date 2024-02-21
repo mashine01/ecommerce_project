@@ -32,7 +32,7 @@
                                     <form id="deleteForm" method="POST" action="">
                                         @csrf
                                         @method('DELETE')
-                                        <button onclick="event.preventDefault(); deleteSelected('{{ route('brands.delete', ['selectedIds' => '']) }}')" type="submit" class="btn btn-danger float-right">Delete Selected</button>
+                                        <button onclick="event.preventDefault(); deleteSelected('{{ route('topSelling.delete', ['selectedIds' => '']) }}')" type="submit" class="btn btn-danger float-right">Delete Selected</button>
                                     </form>
                                 </div>
                             </div>
@@ -43,39 +43,21 @@
                                 <thead>
                                     <tr>
                                         <th>Select</th>
-                                        <th>Brand Name</th>
-                                        <th>Vendor Name</th>
+                                        <th>Style Code</th>
                                         <th>Created By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($brands as $brand)
+                                    @foreach ($topSellings as $topSelling)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="brands[]" value="{{ $brand->id }}">
+                                                <input type="checkbox" name="topSellings[]" value="{{ $topSelling->id }}">
                                             </td>
                                             <td>
-                                                {{ $brand->name }}
+                                                {{ $topSelling->style_code }}
                                             </td>
                                             <td>
-                                                {{ $brand->vendor->name }}
-                                            <td>
-                                                {{ $brand->created_by }}
-                                            </td>
-                                            {{-- <td class="text-center">
-                                            @if ($list->status == 1)
-                                                <span class="badge badge-success center" data-original-title="Active">Active</span>
-                                            @else
-                                                <span class="badge badge-danger center" data-original-title="Active">Inactive</span>
-                                            @endif
-                                        </td> --}}
-                                            <td><a type="button"
-                                                    href="{{ route('brands.edit', [$brand->id]) }}"
-                                                    class="msg-pencil-icon tooltips" data-original-title="Edit">
-                                                    <i class="fa fa-edit" aria-hidden="true"
-                                                        style="font-size: 17px">
-                                                    </i>
-                                                </a>&nbsp;&nbsp;
+                                                {{ $topSelling->created_by }}
                                             </td>
                                         </tr>
                                     @endforeach

@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $product = Product::find($request->product_id);
         $image = $request->file('image');
-        $style_code = $product->style_code;        
+        $style_code = $product->style_code;
         $imageName = $style_code . '.' . $image->getClientOriginalExtension();
         $path = 'product_images/';
         $request->image->move($path, $imageName);
@@ -35,7 +35,8 @@ class ProductController extends Controller
         return redirect()->route('products')->with('success', 'Product image added successfully');
     }
 
-    public function delete (Request $request) {
+    public function delete(Request $request)
+    {
         try {
             $ids = json_decode($request->selectedIds);
             Product::destroy($ids);
@@ -43,18 +44,28 @@ class ProductController extends Controller
                 ->with('success', 'Products deleted successfully.');
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect()->route('products')->with('error', 'Product is being used, cannot delete!');
-        } 
+        }
         return redirect()->route('products')
-        ->with('success', 'Products deleted successfully.');
+            ->with('success', 'Products deleted successfully.');
     }
 
-    public function import(Request $request)
+    public function download(Request $request)
+    {
+        $downloadType = $request->input('download');
+        if ($downloadType == 'WithData') {
+            return Excel::download(new ProductExport(true), 'products_with_data.xlsx');
+        } elseif ($downloadType == 'WithoutData') {
+            return Excel::download(new ProductExport(false), 'products_without_data.xlsx');
+        }
+    }
+
+    public function upload(Request $request)
     {
         try {
             $this->validate($request, [
-                'importFile' => 'required|mimes:xlsx|max:2048',
+                'excelFile' => 'required|mimes:xlsx',
             ]);
-            Excel::import(new ProductImport(), $request->file('importFile'));
+            Excel::import(new ProductImport(), $request->file('excelFile'));
             return redirect()->route('products')->with('success', 'Import successful!');
         } catch (ValidationException $e) {
             return redirect(route('products'))
@@ -64,16 +75,6 @@ class ProductController extends Controller
             return redirect()
                 ->route('products')
                 ->with('error', 'An error occurred during import: ' . $e->getMessage());
-        }
-    }
-
-    public function export(Request $request)
-    {
-        $exportOption = $request->input('exportOption');
-        if ($exportOption == 'withData') {
-            return Excel::download(new ProductExport(true), 'products_with_data.xlsx');
-        } elseif ($exportOption == 'withoutData') {
-            return Excel::download(new ProductExport(false), 'products_without_data.xlsx');
         }
     }
 }

@@ -50,7 +50,7 @@ class SubCategoryController extends Controller
         $validated['created_by'] = auth()->user()->email;
         SubCategory::create($validated);
 
-        return redirect()->route('subcategories.index')
+        return redirect()->route('subcategories')
         ->with('success', 'SubCategory created successfully');
     }
 
@@ -90,5 +90,18 @@ class SubCategoryController extends Controller
 
         return redirect()->route('subcategories')
         ->with('success', 'SubCategory updated successfully');
+    }
+
+    public function delete(Request $request)
+    {
+        try {
+            $ids = json_decode( $request->selectedIds);
+            SubCategory::destroy($ids);
+            return redirect()->route('subcategories')
+            ->with('success', 'SubCategory deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('subcategories')
+            ->with('error', 'SubCategory cannot be deleted');
+        }
     }
 }

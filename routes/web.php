@@ -67,17 +67,14 @@ Route::middleware('IsAdmin')->group(function () {
     Route::delete('/dashboard/vendors/delete', [VendorController::class, 'delete'])->name('vendors.delete');
 
     Route::get('/dashboard/products', [ProductController::class, 'index'])->name('products');
-    Route::get('/dashboard/products/export', [ProductController::class, 'export'])->name('products.export');
-    Route::post('/dashboard/products/import', [ProductController::class, 'import'])->name('products.import');
-    Route::get('/dashboard/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::get('/dashboard/products/download', [ProductController::class, 'download'])->name('products.download');
+    Route::post('/dashboard/products/upload', [ProductController::class, 'upload'])->name('products.upload');
     Route::post('/dashboard/products/addImage', [ProductController::class, 'addImage'])->name('products.addImage');
-    Route::get('/dashboard/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    Route::put('/dashboard/products/{product}/update', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/dashboard/products/delete', [ProductController::class, 'delete'])->name('products.delete');
 
     Route::get('/dashboard/productVariants', [ProductVariantController::class, 'index'])->name('productVariants');
-    Route::get('/dashboard/productVariants/export', [ProductVariantController::class, 'export'])->name('productVariants.export');
-    Route::post('/dashboard/productVariants/import', [ProductVariantController::class, 'import'])->name('productVariants.import');
+    Route::get('/dashboard/productVariants/download', [ProductVariantController::class, 'download'])->name('productVariants.download');
+    Route::post('/dashboard/productVariants/upload', [ProductVariantController::class, 'upload'])->name('productVariants.upload');
     Route::get('/dashboard/productVariants/create', [ProductVariantController::class, 'create'])->name('productVariants.create');
     Route::post('/dashboard/productVariants/store', [ProductVariantController::class, 'store'])->name('productVariants.store');
     Route::get('/dashboard/productVariants/{product}/edit', [ProductVariantController::class, 'edit'])->name('productVariants.edit');

@@ -40,7 +40,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button
-                                            onclick="event.preventDefault(); deleteSelected('{{ route('products.delete', ['selectedIds' => '']) }}')"
+                                            onclick="event.preventDefault(); deleteSelected('{{ route('productVariants.delete', ['selectedIds' => '']) }}')"
                                             type="submit" class="btn btn-danger float-right">Delete Selected</button>
                                     </form>
                                 </div>
@@ -52,45 +52,34 @@
                                 <thead>
                                     <tr>
                                         <th>Select</th>
-                                        <th>Product Name</th>
-                                        <th>Product Description</th>
-                                        <th>Price</th>
-                                        <th>Brand</th>
-                                        <th>Vendor</th>
-                                        <th>Category</th>
-                                        <th>Vendor Style Code</th>
                                         <th>Style Code</th>
+                                        <th>Quantity</th>
+                                        <th>Colour</th>
+                                        <th>UPC</th>
+                                        <th>SKU</th>
                                         <th>Created By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($products as $product)
+                                    @foreach ($variants as $product)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="products[]" value="{{ $product->id }}">
-                                            </td>
-                                            <td>
-                                                {{ $product->name }}
-                                            </td>
-                                            <td>
-                                                {{ $product->description }}
-                                            <td>
-                                                {{ $product->price }}
-                                            </td>
-                                            <td>
-                                                {{ $product->brand->name }}
-                                            </td>
-                                            <td>
-                                                {{ $product->vendor->name }}
-                                            </td>
-                                            <td>
-                                                {{ $product->category->name }}
-                                            </td>
-                                            <td>
-                                                {{ $product->vendor_style_code }}
+                                                <input type="checkbox" name="productVariants[]" value="{{ $product->id }}">
                                             </td>
                                             <td>
                                                 {{ $product->style_code }}
+                                            </td>
+                                            <td>
+                                                {{ $product->quantity }}
+                                            </td>
+                                            <td>
+                                                {{ $product->colour }}
+                                            </td>
+                                            <td>
+                                                {{ $product->upc }}
+                                            </td>
+                                            <td>
+                                                {{ $product->sku }}
                                             </td>
                                             <td>
                                                 {{ $product->created_by }}
@@ -152,8 +141,7 @@
                         </div>
                         <div class="col-md-6">
                             <h5>Upload</h5>
-                            <form action="{{ route('productVariants.upload') }}" method="POST" id="uploadForm"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('productVariants.upload') }}" method="POST" id="uploadForm" enctype="multipart/form-data">
                                 @csrf
                                 @method('POST')
                                 <div class="form-group">

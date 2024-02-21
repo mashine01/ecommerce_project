@@ -40,29 +40,12 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-{{--          <li class="nav-item">--}}
-{{--            <a href="#" class="nav-link">--}}
-{{--              <i class="nav-icon fas fa-user-circle"></i>--}}
-{{--              <p>--}}
-{{--                Users Management--}}
-{{--                <i class="right fas fa-arrow-alt-circle-up"></i>--}}
-{{--              </p>--}}
-{{--            </a>--}}
-{{--            <ul class="nav nav-treeview">--}}
-{{--                  <li class="nav-item">--}}
-{{--                    <a href="/list-of-users" class="nav-link">--}}
-{{--                      <i class="fas fa-arrow-alt-circle-right"></i>--}}
-{{--                      <p>List</p>--}}
-{{--                    </a>--}}
-{{--                  </li>--}}
-{{--            </ul>--}}
-{{--          </li>--}}
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <p>
-                        Vendor Management
+                        Vendors
                         <i class="right fas fa-arrow-alt-circle-up"></i>
                     </p>
                 </a>
@@ -85,7 +68,7 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <p>
-                        Brand Management
+                        Brands
                         <i class="right fas fa-arrow-alt-circle-up"></i>
                     </p>
                 </a>
@@ -108,7 +91,7 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <p>
-                        Category Management
+                        Categories
                         <i class="right fas fa-arrow-alt-circle-up"></i>
                     </p>
                 </a>
@@ -131,7 +114,7 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <p>
-                        Sub-Category Management
+                        Sub-Categories
                         <i class="right fas fa-arrow-alt-circle-up"></i>
                     </p>
                 </a>
@@ -154,17 +137,11 @@
                 <a href="#" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <p>
-                        Product Management
+                        Products
                         <i class="right fas fa-arrow-alt-circle-up"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('products.create') }}" class="nav-link">
-                            <i class="fas fa-arrow-alt-circle-right"></i>
-                            <p>Add New Product</p>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a href="{{ route('products') }}" class="nav-link">
                             <i class="fas fa-arrow-alt-circle-right"></i>
@@ -173,7 +150,86 @@
                     </li>
                 </ul>
             </li>
-
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>
+                        Product Variants
+                        <i class="right fas fa-arrow-alt-circle-up"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('productVariants') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>List of Product Variants</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>
+                        Products
+                        <i class="right fas fa-arrow-alt-circle-up"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('products') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>List of Products</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>
+                        Top Selling Products
+                        <i class="right fas fa-arrow-alt-circle-up"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('topSelling') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>List of Top Selling Products</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('topSelling.create') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>Add New Top Selling Product</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>
+                        Trending Products
+                        <i class="right fas fa-arrow-alt-circle-up"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('trendings.create') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>Add New Trending Product</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('trendings') }}" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-right"></i>
+                            <p>List of Trending Products</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
