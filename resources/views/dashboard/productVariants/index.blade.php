@@ -54,6 +54,7 @@
                                         <th>Select</th>
                                         <th>Style Code</th>
                                         <th>Quantity</th>
+                                        <th>Size</th>
                                         <th>Colour</th>
                                         <th>UPC</th>
                                         <th>SKU</th>
@@ -71,6 +72,9 @@
                                             </td>
                                             <td>
                                                 {{ $product->quantity }}
+                                            </td>
+                                            <td>
+                                                {{ $product->size }}
                                             </td>
                                             <td>
                                                 {{ $product->colour }}
@@ -137,14 +141,21 @@
                             <form action="{{ route('productVariants.download') }}" method="GET" id="downloadForm">
                                 @csrf
                                 @method('GET')
-                                <div class="btn-group-vertical">
-                                    <button class="btn btn-primary" type="submit" name="download" value="WithData">Download
-                                        with
-                                        Data</button>
-                                    <button class="btn btn-primary" type="submit" name="download"
-                                        value="WithoutData">Download
-                                        without Data</button>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="download" id="withData"
+                                        value="WithData" checked>
+                                    <label class="form-check-label" for="withData">
+                                        Download with Data
+                                    </label>
                                 </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="download"
+                                        id="withoutData" value="WithoutData">
+                                    <label class="form-check-label" for="withoutData">
+                                        Download without Data
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary mt-3" type="submit">Download</button>
                             </form>
                         </div>
                         <div class="col-md-6">

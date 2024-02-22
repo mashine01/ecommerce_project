@@ -27,16 +27,16 @@ class ProductVariantController extends Controller
         ->join('brands as b', 'p.brand_id', '=', 'b.id')
         ->select('product_variants.*', 'v.name as vendor_name', 'b.name as brand_name', 'p.vendor_style_code')
         ->where('product_variants.id', $variant->id)
-        ->get();
+        ->first();
         return view('dashboard.productVariants.edit')
-            ->with('variant', $variant);
+            ->with('variant', $variant)
+            ->with('variantDetails', $variantDetails);
     }
 
     public function update(Request $request, ProductVariant $variant)
     {
         $validator = Validator::make($request->all(), [
             'sku' => 'required|unique:product_variants,sku,' . $variant->id,
-            'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'upc' => 'required|digits:9',
             'style_code' => 'required',
@@ -51,7 +51,7 @@ class ProductVariantController extends Controller
         }
 
         $validated = $validator->validated();
-        $variant->save($validated);
+        $variant->update($validated);
         return redirect()->route('productVariants')->with('success', 'Product Variant updated successfully!');
     }
 

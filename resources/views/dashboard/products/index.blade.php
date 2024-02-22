@@ -73,10 +73,14 @@
                                                 <input type="checkbox" name="products[]" value="{{ $product->id }}">
                                             </td>
                                             <td>
-                                                <img src="{{ asset($product->front_image) }}" alt="Front Image" style="width: 50px">
-                                                <img src="{{ asset($product->back_image) }}" alt="Back Image" style="width: 50px">
-                                                <img src="{{ asset($product->left_image) }}" alt="Left Image" style="width: 50px">
-                                                <img src="{{ asset($product->right_image) }}" alt="Right Image" style="width: 50px">
+                                                <img src="{{ asset($product->front_image) }}" alt="Front Image"
+                                                    style="width: 50px">
+                                                <img src="{{ asset($product->back_image) }}" alt="Back Image"
+                                                    style="width: 50px">
+                                                <img src="{{ asset($product->left_image) }}" alt="Left Image"
+                                                    style="width: 50px">
+                                                <img src="{{ asset($product->right_image) }}" alt="Right Image"
+                                                    style="width: 50px">
                                                 <button type="button" onclick="openAddImageModal({{ $product->id }})"
                                                     class="msg-pencil-icon tooltips" data-original-title="Edit">
                                                     <i class="fa fa-edit">
@@ -90,7 +94,7 @@
                                                 {{ $product->description }}
                                             </td>
                                             <td>
-                                                {{ $product->is_active ? 'Active' : 'Inactive'}}
+                                                {{ $product->is_active ? 'Active' : 'Inactive' }}
                                             <td>
                                                 {{ $product->price }}
                                             </td>
@@ -162,26 +166,32 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h5>Download</h5>
-                            <form action="{{ route('productVariants.download') }}" method="GET" id="downloadForm">
+                            <h5>Download Options</h5>
+                            <form action="{{ route('products.download') }}" method="GET">
                                 @csrf
                                 @method('GET')
-                                <div class="btn-group-vertical">
-                                    <button class="btn btn-primary" type="submit" name="download" value="WithData">Download
-                                        with
-                                        Data</button>
-                                    <button class="btn btn-primary" type="submit" name="download"
-                                        value="WithoutData">Download
-                                        without Data</button>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="download" id="withData"
+                                        value="WithData" checked>
+                                    <label class="form-check-label" for="withData">
+                                        Download with Data
+                                    </label>
                                 </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="download"
+                                        id="withoutData" value="WithoutData">
+                                    <label class="form-check-label" for="withoutData">
+                                        Download without Data
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary mt-3" type="submit">Download</button>
                             </form>
                         </div>
                         <div class="col-md-6">
                             <h5>Upload</h5>
-                            <form action="{{ route('productVariants.upload') }}" method="POST" id="uploadForm"
+                            <form action="{{ route('products.upload') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
-                                @method('POST')
                                 <div class="form-group">
                                     <label for="excelFile">Select Excel File</label>
                                     <input type="file" class="form-control-file" id="excelFile" name="excelFile"
@@ -192,6 +202,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>

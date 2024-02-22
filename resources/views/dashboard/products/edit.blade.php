@@ -161,14 +161,16 @@
                 brandDropdown.appendChild(defaultOption);
             }
         }
+        populateBrandOptions()
 
         // Generate style code based on brand and vendor_style_code
         function generateStyleCode() {
-            var brandName = document.querySelector('[name="brand_id"] option:checked').text;
-            var vendorStyleCode = document.getElementById('vendor_style_code').value;
-            var styleCode = (brandName.slice(0, 2)).toUpperCase() + '-' + vendorStyleCode;
+            var brandName = (document.querySelector('[name="brand_id"] option:checked').text).toUpperCase();
+            var vendorStyleCode = (document.getElementById('vendor_style_code').value).toUpperCase();
+            var styleCode = brandName.slice(0, 2) + '-' + vendorStyleCode;
             document.getElementById('style_code').value = styleCode; // Set the style code
         }
+        generateStyleCode()
 
         // Calculate discount price based on price and discount
         function calculateDiscountPrice() {

@@ -71,18 +71,17 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
                                 </div>
                             </div>
                             <div class="card-body p-0">
                                 <ul class="products-list product-list-in-card pl-2 pr-2">
-                                    @foreach ($products as $prods)
+                                    @php
+                                        $sortedProducts = $products->sortByDesc('created_at');
+                                    @endphp
+                                    @foreach ($sortedProducts as $prods)
                                         <li class="item">
                                             <div class="product-img">
-                                                <img src="{{ $prods->front_image }}"
-                                                    class="img-size-50">
+                                                <img src="{{ $prods->front_image }}" class="img-size-50">
                                             </div>
                                             <div class="product-info">
                                                 <a href="{{ $prods->slug }}" class="product-title">{{ $prods->name }}

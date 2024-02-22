@@ -45,13 +45,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="size">Size</label>
-                                    <input oninput="generateSku();" type="text" name="size" class="form-control" id="size"
-                                        placeholder="Enter Size" value="{{ $variant->size }}" required>
+                                    <input oninput="generateSku()" type="text" name="size" class="form-control"
+                                        id="size" placeholder="Enter Size" value="{{ $variant->size }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="colour">Colour</label>
-                                    <input oninput="generateSku();" type="text" name="colour" class="form-control" id="colour"
-                                        placeholder="Enter Colour" value="{{ $variant->colour }}" required>
+                                    <input oninput="generateSku()" type="text" name="colour" class="form-control"
+                                        id="colour" placeholder="Enter Colour" value="{{ $variant->colour }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="sku">SKU</label>
@@ -85,19 +85,18 @@
     <script src="/assets/dashboard/plugins/summernote/summernote-bs4.min.js"></script>
 
     <script>
-
-
         // Generate style code based on brand and vendor_style_code
         function generateSku() {
-            var vendor = {{ $variant->vendor_name }};
-            var brand = {{ $variant->brand_name }};
-            var vendor_style_code = {{ $variant->vendor_style_code}};
-            var colour = document.getElementById('colour').value;
-            var size = document.getElementById('size').value;
-
-            var sku = vendor.substring(0, 2) + brand.substring(0, 2) + vendor_style_code.toUpperCase() + colour.toUpperCase() + size.toUpperCase();
+            var vendor = ("{{ $variantDetails->vendor_name }}").toUpperCase()
+            var brand = ("{{ $variantDetails->brand_name }}").toUpperCase()
+            var vendor_style_code = ("{{ $variantDetails->vendor_style_code }}").toUpperCase()
+            var colour = (document.getElementById('colour').value).toUpperCase()
+            var size = (document.getElementById('size').value).toUpperCase()
+            var sku = vendor.substring(0, 2) + brand.substring(0, 2) + "-" + vendor_style_code + "-" + colour +
+                "-" + size
             document.getElementById('sku').value = sku;
         }
+        generateSku()
 
         $('#message-group').fadeOut(10000);
         $(function() {

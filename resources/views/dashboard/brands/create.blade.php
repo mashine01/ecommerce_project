@@ -47,7 +47,10 @@
                                             {{ isset($brand) ? '' : 'required' }}>
                                         <label class="custom-file-label" for="image">Choose file</label>
                                     </div>
-                                    <img src="{{ asset($brand->logo) }}" style="border-radius: 5px" alt="Brand Image" width="100px">
+                                    @if (isset($brand))
+                                        <img src="{{ asset($brand->logo) }}" style="border-radius: 5px" alt="Brand Image"
+                                            width="100px">
+                                    @endif
                                 </div>
                                 <div class="form-check">
                                     <input type="checkbox" name="show_in_page" class="form-check-input" id="show_in_page"

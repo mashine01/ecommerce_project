@@ -10,6 +10,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImage;
+use App\Models\ProductVariant;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -146,10 +147,6 @@ class ProductController extends Controller
         return redirect()->route('products')->with('success', 'Product image added successfully');
     }
 
-    public function resizeImages()
-    {
-    }
-
     public function edit(Product $product)
     {
         $vendors = Vendor::all();
@@ -169,7 +166,9 @@ class ProductController extends Controller
 
     public function update(Product $product, Request $request)
     {
-        $validate = Validator::make($request->all(), [
+        try 
+        {
+            $validate = Validator::make($request->all(), [
             'name' => 'required',
             'description' => 'required',
             'category_id' => 'required',
@@ -193,11 +192,24 @@ class ProductController extends Controller
         } else {
             $is_active = 0;
         }
-
-
         $validator = $validate->validated();
         $validator['is_active'] = $is_active;
         $product->update($validator);
+    } catch (\Illuminate\Database\QueryException $e) {
+        return redirect(route('products'))
+            ->with('error', 'Product is being used, cannot update!');
+    }
+
+        // // Update product variant
+        // $variant = ProductVariant::select('sku')->where('style_code', $product->style_code)->first();
+        // $vendorName = Vendor::where('id', $request->input('vendor_id'))->value('name');
+        // $brandName = Brand::where('id', $request->input('brand_id'))->value('name');
+        // $colour = ProductVariant::where('style_code', $product->style_code)->value('colour');
+        // $size = ProductVariant::where('style_code', $product->style_code)->value('size');
+        // $sku = strtoupper(substr($vendorName, 0, 2) . substr($brandName, 0, 2) . "-" . $request->input('vendor_style_code') ."-" . $colour . "-" . $size);
+        // $variant->sku = $sku;
+        // $variant->save();
+
         return redirect(route('products'))->with('success', 'Product updated successfully');
     }
 
