@@ -55,6 +55,7 @@
                                         <th>Image</th>
                                         <th>Product Name</th>
                                         <th>Product Description</th>
+                                        <th>Status</th>
                                         <th>Price</th>
                                         <th>Discount Price</th>
                                         <th>Brand</th>
@@ -71,16 +72,25 @@
                                             <td>
                                                 <input type="checkbox" name="products[]" value="{{ $product->id }}">
                                             </td>
-                                            <td class="table-cell">
-                                                <div class="text-center">
-                                                    <img class="img-fluid prod_img" src="{{ asset($product->image_path) }}" alt="Add Image" onclick="openAddImageModal({{ $product->id }})">
-                                                </div>
+                                            <td>
+                                                <img src="{{ asset($product->front_image) }}" alt="Front Image" style="width: 50px">
+                                                <img src="{{ asset($product->back_image) }}" alt="Back Image" style="width: 50px">
+                                                <img src="{{ asset($product->left_image) }}" alt="Left Image" style="width: 50px">
+                                                <img src="{{ asset($product->right_image) }}" alt="Right Image" style="width: 50px">
+                                                <button type="button" onclick="openAddImageModal({{ $product->id }})"
+                                                    class="msg-pencil-icon tooltips" data-original-title="Edit">
+                                                    <i class="fa fa-edit">
+                                                    </i>
+                                                </button>
                                             </td>
                                             <td>
                                                 {{ $product->name }}
                                             </td>
                                             <td>
                                                 {{ $product->description }}
+                                            </td>
+                                            <td>
+                                                {{ $product->is_active ? 'Active' : 'Inactive'}}
                                             <td>
                                                 {{ $product->price }}
                                             </td>
@@ -105,14 +115,12 @@
                                             <td>
                                                 {{ $product->created_by }}
                                             </td>
-                                            <td><a type="button"
-                                                href="{{ route('products.edit', [$product->id]) }}"
-                                                class="msg-pencil-icon tooltips" data-original-title="Edit">
-                                                <i class="fa fa-edit" aria-hidden="true"
-                                                    style="font-size: 17px">
-                                                </i>
-                                            </a>&nbsp;&nbsp;
-                                        </td>
+                                            <td><a type="button" href="{{ route('products.edit', [$product->id]) }}"
+                                                    class="msg-pencil-icon tooltips" data-original-title="Edit">
+                                                    <i class="fa fa-edit" aria-hidden="true" style="font-size: 17px">
+                                                    </i>
+                                                </a>&nbsp;&nbsp;
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -206,11 +214,24 @@
                         @csrf
                         <input type="hidden" name="product_id" id="product_id">
                         <div class="form-group">
-                            <label for="image">Select Image</label>
-                            <input type="file" class="form-control-file" id="image" name="image"
+                            <label for="front_image">Front Image</label>
+                            <input type="file" class="form-control-file" id="front_image" name="front_image"
                                 accept="image/*" required>
+
+                            <label for="back_image">Back Image</label>
+                            <input type="file" class="form-control-file" id="back_image" name="back_image"
+                                accept="image/*" required>
+
+                            <label for="side1_image">Left Image</label>
+                            <input type="file" class="form-control-file" id="side1_image" name="left_image"
+                                accept="image/*" required>
+
+                            <label for="side2_image">Right Image</label>
+                            <input type="file" class="form-control-file" id="side2_image" name="right_image"
+                                accept="image/*" required>
+
                         </div>
-                        <button type="submit" class="btn btn-primary">Upload Image</button>
+                        <button type="submit" class="btn btn-primary">Upload Images</button>
                     </form>
                 </div>
             </div>

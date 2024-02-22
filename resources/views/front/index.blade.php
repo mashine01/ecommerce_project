@@ -56,33 +56,13 @@
                         }
                     }
                 }'>
-                <a href="#" class="brand">
-                    <img src="/frontend/assets/images/brands/1.png" alt="Brand Name">
-                </a>
-
-                <a href="#" class="brand">
-                    <img src="/frontend/assets/images/brands/2.png" alt="Brand Name">
-                </a>
-
-                <a href="#" class="brand">
-                    <img src="/frontend/assets/images/brands/3.png" alt="Brand Name">
-                </a>
-
-                <a href="#" class="brand">
-                    <img src="/frontend/assets/images/brands/4.png" alt="Brand Name">
-                </a>
-
-                <a href="#" class="brand">
-                    <img src="/frontend/assets/images/brands/5.png" alt="Brand Name">
-                </a>
-
-                <a href="#" class="brand">
-                    <img src="/frontend/assets/images/brands/6.png" alt="Brand Name">
-                </a>
-
-                <a href="#" class="brand">
-                    <img src="/frontend/assets/images/brands/7.png" alt="Brand Name">
-                </a>
+                @foreach ($brands as $brand)
+                    @if ($brand->show_in_page == true)
+                        <a href="" class="brand">
+                            <img src="{{ asset($brand->logo) }}" alt="{{ $brand->name }}">
+                        </a>
+                    @endif
+                @endforeach
             </div><!-- End .owl-carousel -->
 
             <div class="mb-3 mb-lg-5"></div><!-- End .mb-3 mb-lg-5 -->
@@ -171,13 +151,19 @@
 
     <div class="mb-3"></div><!-- End .mb-6 -->
 
-    @if (count($trendings)>0)
+    @if (count($trendings) > 0)
         <div class="container">
             <ul class="nav nav-pills nav-border-anim nav-big justify-content-center mb-3" role="tablist">
                 @foreach ($trendingsCategories as $category)
-                    <li class="nav-item">
-                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="products-{{ strtolower($category->name) }}-link" data-toggle="tab" href="#products-{{ strtolower($category->name) }}-tab" role="tab" aria-controls="products-{{ strtolower($category->name) }}-tab" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $category->name }}</a>
-                    </li>
+                    @if (count($category->trendings->flatMap->products) > 0)
+                        <li class="nav-item">
+                            <a class="nav-link {{ $loop->first ? 'active' : '' }}"
+                                id="products-{{ strtolower($category->name) }}-link" data-toggle="tab"
+                                href="#products-{{ strtolower($category->name) }}-tab" role="tab"
+                                aria-controls="products-{{ strtolower($category->name) }}-tab"
+                                aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $category->name }}</a>
+                        </li>
+                    @endif
                 @endforeach
             </ul>
         </div><!-- End .container -->
@@ -185,8 +171,11 @@
         <div class="container-fluid">
             <div class="tab-content tab-content-carousel">
                 @foreach ($trendingsCategories as $category)
-                    <div class="tab-pane p-0 fade {{ $loop->first ? 'show active' : '' }}" id="products-{{ strtolower($category->name) }}-tab" role="tabpanel" aria-labelledby="products-{{ strtolower($category->name) }}-link">
-                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                    <div class="tab-pane p-0 fade {{ $loop->first ? 'show active' : '' }}"
+                        id="products-{{ strtolower($category->name) }}-tab" role="tabpanel"
+                        aria-labelledby="products-{{ strtolower($category->name) }}-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow"
+                            data-toggle="owl"
                             data-owl-options='{
                                 "nav": false,
                                 "dots": true,
@@ -214,31 +203,33 @@
                                     }
                                 }
                             }'>
-                            @foreach ($category->trendings as $trending)
-                                @foreach ($trending->products as $product)
-                                    <div class="product product-11 text-center">
-                                        <figure class="product-media">
-                                            <a href="#">
-                                                <img src="{{ $product->image_path }}" alt="{{ $product->name }}" class="product-image">
-                                                {{-- <img src="{{ $product->hover_image }}" alt="{{ $product->name }}" class="product-image-hover"> --}}
-                                            </a>
+                            @foreach ($category->trendings->flatMap->products as $product)
+                                <div class="product product-11 text-center">
+                                    <figure class="product-media">
+                                        <a href="#">
+                                            <img src="{{ $product->front_image }}" alt="{{ $product->name }}"
+                                                class="product-image">
+                                            {{-- <img src="{{ $product->hover_image }}" alt="{{ $product->name }}" class="product-image-hover"> --}}
+                                        </a>
 
-                                            <div class="product-action-vertical">
-                                                <a href="#" class="btn-product-icon btn-wishlist"><span>add to wishlist</span></a>
-                                            </div><!-- End .product-action-vertical -->
-                                        </figure><!-- End .product-media -->
+                                        <div class="product-action-vertical">
+                                            <a href="#" class="btn-product-icon btn-wishlist"><span>add to
+                                                    wishlist</span></a>
+                                        </div><!-- End .product-action-vertical -->
+                                    </figure><!-- End .product-media -->
 
-                                        <div class="product-body">
-                                            <h3 class="product-title"><a href="#">{{ $product->name }}</a></h3><!-- End .product-title -->
-                                            <div class="product-price">
-                                                PKR{{ $product->price }}
-                                            </div><!-- End .product-price -->
-                                        </div><!-- End .product-body -->
-                                        <div class="product-action">
-                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                        </div><!-- End .product-action -->
-                                    </div><!-- End .product -->
-                                @endforeach
+                                    <div class="product-body">
+                                        <h3 class="product-title"><a href="#">{{ $product->name }}</a></h3>
+                                        <!-- End .product-title -->
+                                        <div class="product-price">
+                                            PKR{{ $product->price }}
+                                        </div><!-- End .product-price -->
+                                    </div><!-- End .product-body -->
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart"><span>add to
+                                                cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </div><!-- End .product -->
                             @endforeach
                         </div><!-- End .owl-carousel -->
                     </div><!-- .End .tab-pane -->
@@ -257,12 +248,19 @@
                 <h2 class="title">Top Selling Products</h2><!-- End .title -->
                 <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="top-all-link" data-toggle="tab" href="#top-all-tab" role="tab" aria-controls="top-all-tab" aria-selected="true">All</a>
+                        <a class="nav-link active" id="top-all-link" data-toggle="tab" href="#top-all-tab"
+                            role="tab" aria-controls="top-all-tab" aria-selected="true">All</a>
                     </li>
                     @foreach ($topSellings->unique('product.category.name') as $topSelling)
-                        @if ($topSelling->product->category->show_on_menu==TRUE)
+                        @if ($topSelling->product->category->show_on_menu == true)
                             <li class="nav-item">
-                                <a class="nav-link" id="top-{{ strtolower($topSelling->product->category->name) }}-link" data-toggle="tab" href="#top-{{ strtolower($topSelling->product->category->name) }}-tab" role="tab" aria-controls="top-{{ strtolower($topSelling->product->category->name) }}-tab" aria-selected="false">{{ $topSelling->product->category->name }}</a>
+                                <a class="nav-link"
+                                    id="top-{{ strtolower($topSelling->product->category->name) }}-link"
+                                    data-toggle="tab"
+                                    href="#top-{{ strtolower($topSelling->product->category->name) }}-tab"
+                                    role="tab"
+                                    aria-controls="top-{{ strtolower($topSelling->product->category->name) }}-tab"
+                                    aria-selected="false">{{ $topSelling->product->category->name }}</a>
                             </li>
                         @endif
                     @endforeach
@@ -271,46 +269,54 @@
             </div><!-- End .heading -->
 
             <div class="tab-content">
-                <div class="tab-pane p-0 fade show active" id="top-all-tab" role="tabpanel" aria-labelledby="top-all-link">
+                <div class="tab-pane p-0 fade show active" id="top-all-tab" role="tabpanel"
+                    aria-labelledby="top-all-link">
                     <div class="products">
                         <div class="row justify-content-center">
-                        @foreach ($topSellings as $topSelling)
-                        @if ($topSelling->product->category->show_on_menu==TRUE)
-                            <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
-                                <div class="product product-11 text-center">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="{{ $topSelling->product->image_path }}" alt="Product image" class="product-image">
-                                            {{-- <img src="{{ $topSelling->product->images['hover'] }}" alt="Product image" class="product-image-hover"> --}}
-                                        </a>
+                            @foreach ($topSellings as $topSelling)
+                                @if ($topSelling->product->category->show_on_menu == true)
+                                    <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                        <div class="product product-11 text-center">
+                                            <figure class="product-media">
+                                                <a href="product.html">
+                                                    <img src="{{ $topSelling->product->front_image }}"
+                                                        alt="Product image" class="product-image">
+                                                    {{-- <img src="{{ $topSelling->product->images['hover'] }}" alt="Product image" class="product-image-hover"> --}}
+                                                </a>
 
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
-                                        </div><!-- End .product-action-vertical -->
-                                    </figure><!-- End .product-media -->
+                                                <div class="product-action-vertical">
+                                                    <a href="#" class="btn-product-icon btn-wishlist "><span>add
+                                                            to wishlist</span></a>
+                                                </div><!-- End .product-action-vertical -->
+                                            </figure><!-- End .product-media -->
 
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">{{ $topSelling->product->category->name }}</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">{{ $topSelling->product->name }}</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            PKR{{ number_format($topSelling->product->price, 2) }}
-                                        </div><!-- End .product-price -->
-                                    </div><!-- End .product-body -->
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                    </div><!-- End .product-action -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-                        @endif
-                        @endforeach
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="#">{{ $topSelling->product->category->name }}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a
+                                                        href="product.html">{{ $topSelling->product->name }}</a></h3>
+                                                <!-- End .product-title -->
+                                                <div class="product-price">
+                                                    PKR{{ number_format($topSelling->product->price, 2) }}
+                                                </div><!-- End .product-price -->
+                                            </div><!-- End .product-body -->
+                                            <div class="product-action">
+                                                <a href="#" class="btn-product btn-cart"><span>add to
+                                                        cart</span></a>
+                                            </div><!-- End .product-action -->
+                                        </div><!-- End .product -->
+                                    </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                @endif
+                            @endforeach
 
                         </div><!-- End .row -->
                     </div><!-- End .products -->
                 </div><!-- .End .tab-pane -->
                 @foreach ($topSellings as $topSelling)
-                    <div class="tab-pane p-0 fade" id="top-{{ strtolower($topSelling->product->category->name) }}-tab" role="tabpanel" aria-labelledby="top-{{ strtolower($topSelling->product->category->name) }}-link">
+                    <div class="tab-pane p-0 fade"
+                        id="top-{{ strtolower($topSelling->product->category->name) }}-tab" role="tabpanel"
+                        aria-labelledby="top-{{ strtolower($topSelling->product->category->name) }}-link">
                         <div class="products">
                             <div class="row justify-content-center">
                                 @foreach ($topSelling->products as $product)
@@ -324,12 +330,14 @@
                                                     <span class="product-label label-circle label-new">New</span>
                                                 @endif
                                                 <a href="#">
-                                                    <img src="{{ asset($product->image_path) }}" alt="Product image" class="product-image">
+                                                    <img src="{{ asset($product->front_image) }}" alt="Product image"
+                                                        class="product-image">
                                                     {{-- <img src="{{ asset($product->hover_image) }}" alt="Product image" class="product-image-hover"> --}}
                                                 </a>
 
                                                 <div class="product-action-vertical">
-                                                    <a href="#" class="btn-product-icon btn-wishlist "><span>add to wishlist</span></a>
+                                                    <a href="#" class="btn-product-icon btn-wishlist "><span>add
+                                                            to wishlist</span></a>
                                                 </div><!-- End .product-action-vertical -->
                                             </figure><!-- End .product-media -->
 
@@ -337,10 +345,12 @@
                                                 <div class="product-cat">
                                                     <a href="#">{{ $product->category->name }}</a>
                                                 </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="#">{{ $product->name }}</a></h3><!-- End .product-title -->
+                                                <h3 class="product-title"><a href="#">{{ $product->name }}</a>
+                                                </h3><!-- End .product-title -->
                                                 <div class="product-price">
-                                                    @if ($product->discount>0)
-                                                        <span class="new-price">PKR{{ $product->discount_price }}</span>
+                                                    @if ($product->discount > 0)
+                                                        <span
+                                                            class="new-price">PKR{{ $product->discount_price }}</span>
                                                         <span class="old-price">PKR{{ $product->price }}</span>
                                                     @else
                                                         PKR{{ $product->price }}
@@ -348,7 +358,8 @@
                                                 </div><!-- End .product-price -->
                                             </div><!-- End .product-body -->
                                             <div class="product-action">
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                <a href="#" class="btn-product btn-cart"><span>add to
+                                                        cart</span></a>
                                             </div><!-- End .product-action -->
                                         </div><!-- End .product -->
                                     </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->

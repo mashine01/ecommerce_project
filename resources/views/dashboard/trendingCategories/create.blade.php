@@ -19,14 +19,12 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">{{ 'Add' }}</h3>
+                            <h3 class="card-title">{{ "Add" }}</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form
-                            action="{{ isset($brand) ? route('brands.update', ['brand' => $brand]) : route('brands.store') }}"
-                            method="POST" enctype="multipart/form-data">
-                            @if (isset($brand))
+                        <form action="{{ isset($category) ? route('trendingCategory.update',['category'=>$category]) : route('trendingCategory.store') }}" method="POST" enctype="multipart/form-data">
+                            @if (isset($category))
                                 @method('PUT')
                             @else
                                 @method('POST')
@@ -36,35 +34,9 @@
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" class="form-control" id="name"
-                                        placeholder="Enter Brand Name" value="{{ isset($brand) ? $brand->name : '' }}"
-                                        required>
+                                    placeholder="Enter Category Name" value="{{isset($category) ? $category->name : ''}}" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="image">Image</label>
-                                    <div class="custom-file">
-                                            height="100px">
-                                        <input type="file" name="logo" class="custom-file-input" id="logo"
-                                            {{ isset($brand) ? '' : 'required' }}>
-                                        <label class="custom-file-label" for="image">Choose file</label>
-                                    </div>
-                                    <img src="{{ asset($brand->logo) }}" style="border-radius: 5px" alt="Brand Image" width="100px">
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" name="show_in_page" class="form-check-input" id="show_in_page"
-                                        {{ isset($brand) && $brand->show_in_page == 1 ? 'checked' : '' }}>
-                                    <label class="form-check" for="show_in_page">Show In Page</label>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vendor_id">Vendor</label>
-                                    <select name="vendor_id" class="form-control" id="vendor_id" required>
-                                        <option value="">Select Vendor</option>
-                                        @foreach ($vendors as $vendor)
-                                            <option value="{{ $vendor->id }}"
-                                                {{ isset($brand) && $brand->vendor_id == $vendor->id ? 'selected' : '' }}>
-                                                {{ $vendor->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer text-center">

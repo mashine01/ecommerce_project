@@ -37,6 +37,7 @@
                                     <label for="name">Banner Type</label>
                                     <select class="form-control text-primary border-primary" name="banner_type"
                                         id="banner_type" onchange="populatePriority()">
+                                        <option value="" disabled selected>Select Banner Type</option>
                                         <option value="intro"
                                             {{ isset($banner) && $banner->banner_type == 'intro' ? 'selected' : '' }}>
                                             Intro</option>

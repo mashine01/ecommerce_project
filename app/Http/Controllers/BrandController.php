@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\ImageManager;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BrandsExport;
 use App\Imports\BrandsImport;
@@ -41,12 +42,18 @@ class BrandController extends Controller
                 ],
                 'vendor_id' => [
                     'required',
-                    'numeric',
-                    'max:255',
+                ],
+                'logo' => [
+                    'required',
+                    'image',
+                    'mimes:jpeg,png,jpg,gif',
+                    'max:2048',
                 ],
             ],
             [
                 'name.required' => "Please enter Brand name",
+                'name.unique' => "Brand name already exists",
+                'name.max' => 'Brand name should not exceed 255 characters',
                 'vendor_id.required' => "Please enter vendor Name",
             ]
         );
@@ -57,9 +64,23 @@ class BrandController extends Controller
                 ->withInput();
         }
         $validated = $validator->validated();
-        $validated['created_by'] = auth()->user()->email;
-        $newBrand = Brand::create($validated);
 
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logoName = $request->input('name') . '.' . $logo->getClientOriginalExtension();
+            $path = 'brand_logos/';
+            $logo->move($path, $logoName);
+            $validated['logo'] = $path . $logoName;
+        }
+
+        if ($request->input('show_in_page') == "on") {
+            $validated['show_in_page'] = 1;
+        } else {
+            $validated['show_in_page'] = 0;
+        }
+
+        $validated['created_by'] = auth()->user()->name;
+        $newBrand = Brand::create($validated);
         return (redirect(route("brands")));
     }
 
@@ -77,10 +98,15 @@ class BrandController extends Controller
             [
                 'name' => 'required|unique:brands,name,' . $brand->id,
                 'vendor_id' => 'required',
+                'logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ],
             [
                 'name.required' => "Please enter brand name",
+                'name.unique' => "Brand name already exists",
                 'vendor_id.required' => "Please enter Vendor Name",
+                'logo.image' => "Invalid image format",
+                'logo.mimes' => "Invalid image format. Only JPEG, PNG, JPG, and GIF formats are allowed",
+                'logo.max' => "Image size exceeds the maximum limit of 2MB",
             ]
         );
 
@@ -90,8 +116,25 @@ class BrandController extends Controller
                 ->withInput();
         }
 
-
         $validated = $validator->validated();
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logoName = $request->input('name') . '.' . $logo->getClientOriginalExtension();
+            $manager = ImageManager::gd();
+            $logo = $manager->read($request->file('logo'));
+            $path = 'brand_logos/';
+            $logo->resize(300, 150);
+            $logo->save($path . $logoName);
+            $validated['logo'] = $path . $logoName;
+        }
+
+        if ($request->input('show_in_page') == "on") {
+            $validated['show_in_page'] = 1;
+        } else {
+            $validated['show_in_page'] = 0;
+        }
+
         $brand->update($validated);
         return redirect()->route('brands')->with('success', 'Brand updated successfully');
     }
@@ -99,7 +142,7 @@ class BrandController extends Controller
     public function delete(Request $request)
     {
         try {
-            $ids = json_decode( $request->selectedIds);
+            $ids = json_decode($request->selectedIds);
             Brand::destroy($ids);
             return redirect()->route('brands')->with('success', 'Brand deleted successfully');
         } catch (\Illuminate\Database\QueryException $e) {

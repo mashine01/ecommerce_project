@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductDetail;
@@ -16,14 +17,6 @@ use Illuminate\Support\Facades\View;
 
 class FrontController extends Controller
 {
-    private $categories;
-    private $subCategories;
-
-    public function __construct()
-    {
-        $this->categories = Category::all();
-        $this->subCategories = SubCategory::all();
-    }
 
     public function index()
     {
@@ -31,20 +24,21 @@ class FrontController extends Controller
         $trendingsCategories = TrendingCategory::all();
         $trendings = Trending::all();
         $topSellings = TopSelling::all();
+        $brands = Brand::all();
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
 
-        return view('index')
+        // Retrieve counts of related products for each trending category
+        $categoryProductCounts = TrendingCategory::withCount('trendings')->pluck('trendings_count', 'name');
+
+        return view('front.index')
             ->with('banners', $banners)
-            ->with('categories', $this->categories)
-            ->with('subCategories', $this->subCategories)
+            ->with('categories', $categories)
+            ->with('subCategories', $subCategories)
             ->with('trendingsCategories', $trendingsCategories)
             ->with('topSellings', $topSellings)
-            ->with('trendings', $trendings);
-    }
-
-    public function header() {
-        return view('dashboard.layout.header')
-            ->with('categories', $this->categories)
-            ->with('subCategories', $this->subCategories);
+            ->with('trendings', $trendings)
+            ->with('brands', $brands);
     }
 
     public function blog()
@@ -52,7 +46,8 @@ class FrontController extends Controller
         return view('blog');
     }
 
-    public function account(){
+    public function account()
+    {
         return view('front.account.dashboard');
     }
 }

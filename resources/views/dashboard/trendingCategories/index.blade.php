@@ -32,7 +32,7 @@
                                     <form id="deleteForm" method="POST" action="">
                                         @csrf
                                         @method('DELETE')
-                                        <button onclick="event.preventDefault(); deleteSelected('{{ route('brands.delete', ['selectedIds' => '']) }}')" type="submit" class="btn btn-danger float-right">Delete Selected</button>
+                                        <button onclick="event.preventDefault(); deleteSelected('{{ route('categories.delete', ['selectedIds' => '']) }}')" type="submit" class="btn btn-danger float-right">Delete Selected</button>
                                     </form>
                                 </div>
                             </div>
@@ -43,43 +43,24 @@
                                 <thead>
                                     <tr>
                                         <th>Select</th>
-                                        <th>Brand Name</th>
-                                        <th>Logo</th>
-                                        <th>Show In Page</th>
-                                        <th>Vendor Name</th>
+                                        <th>Category</th
                                         <th>Created By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($brands as $brand)
+                                    @foreach ($trendingCategory as $category)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="brands[]" value="{{ $brand->id }}">
+                                                <input type="checkbox" name="categories[]" value="{{ $category->id }}">
                                             </td>
                                             <td>
-                                                {{ $brand->name }}
+                                                {{ $category->name }}
                                             </td>
                                             <td>
-                                                <img src="{{ asset($brand->logo) }}" alt="{{ $brand->name }}" width="100px"
-                                                    height="100px">
+                                                {{ $category->created_by }}
                                             </td>
-                                            <td>
-                                                {{ $brand->show_in_page == 1 ? 'Yes' : 'No' }}
-                                            </td>
-                                            <td>
-                                                {{ $brand->vendor->name }}
-                                            <td>
-                                                {{ $brand->created_by }}
-                                            </td>
-                                            {{-- <td class="text-center">
-                                            @if ($list->status == 1)
-                                                <span class="badge badge-success center" data-original-title="Active">Active</span>
-                                            @else
-                                                <span class="badge badge-danger center" data-original-title="Active">Inactive</span>
-                                            @endif
-                                        </td> --}}
                                             <td><a type="button"
-                                                    href="{{ route('brands.edit', [$brand->id]) }}"
+                                                    href="{{ route('trendingCategory.edit', [$category->id]) }}"
                                                     class="msg-pencil-icon tooltips" data-original-title="Edit">
                                                     <i class="fa fa-edit" aria-hidden="true"
                                                         style="font-size: 17px">
@@ -119,5 +100,24 @@
     <script src="/assets/dashboard/plugins/pdfmake/vfs_fonts.js"></script>
     <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="/assets/dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection

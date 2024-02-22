@@ -58,11 +58,13 @@ class TrendingController extends Controller
 
         foreach ($styleCodes as $styleCode) {
             foreach ($trendingCategories as $category) {
-                Trending::create([
-                    'style_code' => $styleCode,
-                    'categories' => $category,
-                    'created_by' => auth()->user()->email,
-                ]);
+                Trending::updateOrCreate(
+                    ['style_code' => $styleCode],
+                    [
+                        'categories' => $category,
+                        'created_by' => auth()->user()->name,
+                    ]
+                );
             }
         }
 

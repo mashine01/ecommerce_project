@@ -29,6 +29,22 @@
                             @method('PUT')
                             <div class="card-body">
                                 <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" class="form-control" id="name"
+                                        placeholder="Enter Category Name" value="{{ $product->name }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <input type="text" name="description" value="{{ $product->description }}"
+                                        class="form-control" id="description" placeholder="Enter Description" required>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active"
+                                        {{ $product->is_active ? 'checked' : '' }}>
+                                    <label class="form-check" for="is_active">Is Active</label>
+
+                                </div>
+                                <div class="form-group">
                                     <label for="vendor">Vendor</label>
                                     <select onchange="populateBrandOptions()"
                                         class="form-control text-primary border-primary" name="vendor_id" id="vendor_id">
@@ -54,27 +70,18 @@
                                         <!-- Brands will be populated dynamically based on the selected vendor -->
                                     </select>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="category">Category</label>
                                     <select class="form-control text-primary border-primary" name="category_id"
                                         id="category_id">
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
-                                                {{ $product->category_id == $category->id ? 'selected' : '' }}> <!-- Check if the category is the selected category -->
-                                                {{ $category->name }}</option>
+                                                {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                                <!-- Check if the category is the selected category -->
+                                                {{ $category->name }}
+                                            </option>
                                         @endforeach
                                     </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control" id="name"
-                                        placeholder="Enter Category Name" value="{{ $product->name }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <input type="text" name="description" value="{{ $product->description }}"
-                                        class="form-control" id="description" placeholder="Enter Description" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="price">Price</label>
@@ -175,7 +182,7 @@
         function calculateDiscountPercentage() {
             var price = document.getElementById('price').value;
             var discountPrice = document.getElementById('discount_price').value;
-            var discount =(((price - discountPrice) / price) * 100).toFixed(2);
+            var discount = (((price - discountPrice) / price) * 100).toFixed(2);
             document.getElementById('discount').value = discount;
         }
 

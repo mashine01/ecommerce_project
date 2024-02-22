@@ -11,13 +11,13 @@ class TrendingCategoryController extends Controller
     public function index()
     {
         $trendingCategory = trendingCategory::all();
-        return view('dashboard.trendingCategory.index')
-        ->with('trendingCategory', $trendingCategory);
+        return view('dashboard.trendingCategories.index')
+            ->with('trendingCategory', $trendingCategory);
     }
 
     public function create()
     {
-        return view('dashboard.trendingCategory.create');
+        return view('dashboard.trendingCategories.create');
     }
 
     public function store(Request $request)
@@ -45,13 +45,13 @@ class TrendingCategoryController extends Controller
 
         $validated = $validator->validated();
         $validated['created_by'] = auth()->user()->email;
-        $trendingCategory = TrendingCategory::create($validated);
+        TrendingCategory::create($validated);
         return redirect(route('trendingCategory'))->with('success', 'Trending Category created successfully');
     }
 
     public function edit(TrendingCategory $category)
     {
-        return view("dashboard.trendingCategory.edit", ['category' => $category]);
+        return view("dashboard.trendingCategories.create", ['category' => $category]);
     }
 
     public function update(TrendingCategory $category, Request $request)

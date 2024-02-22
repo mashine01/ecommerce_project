@@ -18,5 +18,4 @@ class TrendingCategory extends Model
     {
         return $this->hasMany(Trending::class, 'categories', 'id');
     }
-
 }

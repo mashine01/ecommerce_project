@@ -8,6 +8,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TopSellingController;
 use App\Http\Controllers\TrendingController;
 use App\Http\Controllers\TrendingCategoryController;
@@ -37,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware('IsAdmin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/dashboard/categories', [CategoryController::class, 'index'])->name('categories');
     Route::get('/dashboard/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/dashboard/categories/store', [CategoryController::class, 'store'])->name('categories.store');

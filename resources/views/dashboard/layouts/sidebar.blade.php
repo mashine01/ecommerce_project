@@ -1,5 +1,5 @@
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4" >
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="/dashboard" class="brand-link">
           <img src="/assets/dashboard/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
@@ -38,10 +38,17 @@
                   data-accordion="false">
                   <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a href="/dashboard" class="nav-link">
+                          <i class="fas fa-home"></i>
+                          <p>
+                              Dashboard
+                          </p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link">
+                          <i class="fas fa-users"></i>
                           <p>
                               Vendors
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -63,8 +70,8 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a class="nav-link">
+                          <i class="fas fa-tags"></i>
                           <p>
                               Brands
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -86,8 +93,8 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a class="nav-link">
+                          <i class="fas fa-th-large"></i>
                           <p>
                               Categories
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -109,8 +116,8 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a class="nav-link">
+                          <i class="fas fa-th"></i>
                           <p>
                               Sub-Categories
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -132,8 +139,8 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a class="nav-link">
+                          <i class="fas fa-box"></i>
                           <p>
                               Products
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -149,8 +156,8 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a class="nav-link">
+                          <i class="fas fa-cubes"></i>
                           <p>
                               Product Variants
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -166,8 +173,8 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a class="nav-link">
+                          <i class="fas fa-star"></i>
                           <p>
                               Top Selling Products
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -189,8 +196,31 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="fas fa-shopping-cart"></i>
+                      <a class="nav-link">
+                          <i class="fas fa-chart-line"></i>
+                          <p>
+                              Trending Categories
+                              <i class="right fas fa-arrow-alt-circle-up"></i>
+                          </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                              <a href="{{ route('trendingCategory.create') }}" class="nav-link">
+                                  <i class="fas fa-arrow-alt-circle-right"></i>
+                                  <p>Add New Trending Categories</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('trendingCategory') }}" class="nav-link">
+                                  <i class="fas fa-arrow-alt-circle-right"></i>
+                                  <p>List of Trending Categories</p>
+                              </a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link">
+                          <i class="fas fa-fire"></i>
                           <p>
                               Trending Products
                               <i class="right fas fa-arrow-alt-circle-up"></i>
@@ -212,28 +242,28 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-shopping-cart"></i>
-                        <p>
-                            Banners
-                            <i class="right fas fa-arrow-alt-circle-up"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('banners.create') }}" class="nav-link">
-                                <i class="fas fa-arrow-alt-circle-right"></i>
-                                <p>Add New Banners</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('banners') }}" class="nav-link">
-                                <i class="fas fa-arrow-alt-circle-right"></i>
-                                <p>List of Banners</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                      <a class="nav-link">
+                          <i class="fas fa-image"></i>
+                          <p>
+                              Banners
+                              <i class="right fas fa-arrow-alt-circle-up"></i>
+                          </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                              <a href="{{ route('banners.create') }}" class="nav-link">
+                                  <i class="fas fa-arrow-alt-circle-right"></i>
+                                  <p>Add New Banners</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('banners') }}" class="nav-link">
+                                  <i class="fas fa-arrow-alt-circle-right"></i>
+                                  <p>List of Banners</p>
+                              </a>
+                          </li>
+                      </ul>
+                  </li>
               </ul>
           </nav>
           <!-- /.sidebar-menu -->
