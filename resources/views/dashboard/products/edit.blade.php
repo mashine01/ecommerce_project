@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="category">Category</label>
-                                    <select class="form-control text-primary border-primary" name="category_id"
+                                    <select onchange="populateSubCategoryOptions()" class="form-control text-primary border-primary" name="category_id"
                                         id="category_id">
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
@@ -81,6 +81,12 @@
                                                 {{ $category->name }}
                                             </option>
                                         @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sub_category">Sub Category</label>
+                                    <select class="form-control text-primary border-primary" name="sub_category_id"
+                                        id="sub_category_id">
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -129,15 +135,6 @@
 @endsection
 
 @section('js')
-    <!-- bs-custom-file-input -->
-    <script src="/assets/dashboard/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="/assets/dashboard/dist/js/adminlte.min.js"></script>
-
-    <script src="/assets/dashboard/js/froala_editor.min.js"></script>
-    <!-- Summernote -->
-    <script src="/assets/dashboard/plugins/summernote/summernote-bs4.min.js"></script>
-
     <script>
         // Populate brand options based on selected vendor
         function populateBrandOptions() {
@@ -162,6 +159,28 @@
             }
         }
         populateBrandOptions()
+
+        function populateSubCategoryOptions() {
+            var subCategoriesByCategory = @json($subCategoriesByCategory);
+            var categoryId = document.getElementById('category_id').value;
+            var subCategoryDropdown = document.getElementById('sub_category_id');
+            subCategoryDropdown.innerHTML = '';
+            var subCategories = subCategoriesByCategory[categoryId];
+            if (subCategories && Object.keys(subCategories).length > 0) {
+                Object.keys(subCategories).forEach(function(subCategory) {
+                    var option = document.createElement('option')
+                    option.textContent = subCategories[subCategory]
+                    option.value = subCategory
+                    subCategoryDropdown.appendChild(option)
+                });
+            } else {
+                var defaultOption = document.createElement('option');
+                defaultOption.textContent = 'No Sub Categories available';
+                defaultOption.value = '';
+                subCategoryDropdown.appendChild(defaultOption);
+            }
+        }
+        populateSubCategoryOptions()
 
         // Generate style code based on brand and vendor_style_code
         function generateStyleCode() {
@@ -203,4 +222,12 @@
             });
         });
     </script>
+    <!-- bs-custom-file-input -->
+    <script src="/assets/dashboard/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/assets/dashboard/dist/js/adminlte.min.js"></script>
+
+    <script src="/assets/dashboard/js/froala_editor.min.js"></script>
+    <!-- Summernote -->
+    <script src="/assets/dashboard/plugins/summernote/summernote-bs4.min.js"></script>
 @endsection

@@ -1,4 +1,5 @@
 <header class="header header-2 header-intro-clearance">
+    @include('front.layout.signin_register_modal')
     <div class="header-top">
         <div class="container">
             <div class="header-left">
@@ -35,12 +36,14 @@
                                 </div>
                             </li>
                             @if (!Auth::check())
-                            <li><a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a></li>
+                                <li><a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a></li>
                             @else
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="logout-link">Logout</a>
+                                        <a href="#"
+                                            onclick="event.preventDefault(); this.closest('form').submit();"
+                                            class="logout-link">Logout</a>
                                     </form>
                                 </li>
                             @endif
@@ -61,17 +64,20 @@
                 </button>
 
                 <a href="{{ route('index') }}" class="logo">
-                    <img src="/frontend/assets/images/demos/demo-2/logo.png" alt="Molla Logo" width="105" height="25">
+                    <img src="/frontend/assets/images/demos/demo-2/logo.png" alt="Molla Logo" width="105"
+                        height="25">
                 </a>
             </div><!-- End .header-left -->
 
             <div class="header-center">
-                <div class="header-search header-search-extended header-search-visible header-search-no-radius d-none d-lg-block">
+                <div
+                    class="header-search header-search-extended header-search-visible header-search-no-radius d-none d-lg-block">
                     <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                     <form action="#" method="get">
                         <div class="header-search-wrapper search-wrapper-wide">
                             <label for="q" class="sr-only">Search</label>
-                            <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required>
+                            <input type="search" class="form-control" name="q" id="q"
+                                placeholder="Search product ..." required>
                             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
                         </div><!-- End .header-search-wrapper -->
                     </form>
@@ -100,7 +106,8 @@
                 </div><!-- End .compare-dropdown -->
 
                 <div class="dropdown cart-dropdown">
-                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" data-display="static">
                         <div class="icon">
                             <i class="icon-shopping-cart"></i>
                             <span class="cart-count">2</span>
@@ -127,7 +134,8 @@
                                         <img src="/frontend/assets/images/products/cart/product-1.jpg" alt="product">
                                     </a>
                                 </figure>
-                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                <a href="#" class="btn-remove" title="Remove Product"><i
+                                        class="icon-close"></i></a>
                             </div><!-- End .product -->
 
                             <div class="product">
@@ -147,7 +155,8 @@
                                         <img src="/frontend/assets/images/products/cart/product-2.jpg" alt="product">
                                     </a>
                                 </figure>
-                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                <a href="#" class="btn-remove" title="Remove Product"><i
+                                        class="icon-close"></i></a>
                             </div><!-- End .product -->
                         </div><!-- End .cart-product -->
 
@@ -159,7 +168,8 @@
 
                         <div class="dropdown-cart-action">
                             <a href="cart.html" class="btn btn-primary">View Cart</a>
-                            <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                            <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i
+                                    class="icon-long-arrow-right"></i></a>
                         </div><!-- End .dropdown-cart-total -->
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .cart-dropdown -->
@@ -171,15 +181,16 @@
         <div class="container">
             <div class="header-left">
                 <div class="dropdown category-dropdown">
-                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
                         Browse Categories
                     </a>
 
                     <div class="dropdown-menu">
                         <nav class="side-nav">
                             <ul class="menu-vertical sf-arrows">
-                                @foreach($categories as $category)
-                                    @if($category->show_on_side_menu==TRUE)
+                                @foreach ($categories as $category)
+                                    @if ($category->show_on_side_menu == true)
                                         <li><a href="#">{{ $category->name }}</a></li>
                                     @endif
                                 @endforeach
@@ -193,7 +204,7 @@
                 <nav class="main-nav">
                     <ul class="menu sf-arrows">
                         @foreach ($categories as $category)
-                            @if ($category->show_on_menu==TRUE)
+                            @if ($category->show_on_menu == true)
                                 <li>
                                     <a href="category.html" class="sf-with-ul">{{ $category->name }}</a>
                                     <div class="megamenu megamenu-md">
@@ -204,25 +215,15 @@
                                                         <div class="col-md-6">
                                                             <ul>
                                                                 @foreach ($subCategories->where('category_id', $category->id) as $subCategory)
-                                                                    <li><a href="category-list.html">{{ $subCategory->name }}</a></li>
+                                                                    <li><a
+                                                                            href="{{ route('category', ['category' => $category->id, 'subcategory' => $subCategory->id]) }}">{{ $subCategory->name }}</a>
+                                                                    </li>
                                                                 @endforeach
                                                             </ul>
                                                         </div><!-- End .col-md-6 -->
                                                     </div><!-- End .row -->
                                                 </div><!-- End .menu-col -->
                                             </div><!-- End .col-md-8 -->
-
-                                            {{-- <div class="col-md-4">
-                                                <div class="banner banner-overlay">
-                                                    <a href="category.html" class="banner banner-menu">
-                                                        <img src="/frontend/assets/images/menu/banner-1.jpg" alt="Banner">
-
-                                                        <div class="banner-content banner-content-top">
-                                                            <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div><!-- End .banner-title -->
-                                                        </div><!-- End .banner-content -->
-                                                    </a>
-                                                </div><!-- End .banner banner-overlay -->
-                                            </div><!-- End .col-md-4 --> --}}
                                         </div><!-- End .row -->
                                     </div><!-- End .megamenu megamenu-md -->
                                 </li>
@@ -355,7 +356,8 @@
             </div><!-- End .header-center -->
 
             <div class="header-right">
-                <i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+                <i class="la la-lightbulb-o"></i>
+                <p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
             </div>
         </div><!-- End .container -->
     </div><!-- End .header-bottom -->

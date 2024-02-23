@@ -55,12 +55,13 @@
                                         <th>Image</th>
                                         <th>Product Name</th>
                                         <th>Product Description</th>
-                                        <th>Status</th>
-                                        <th>Price</th>
-                                        <th>Discount Price</th>
                                         <th>Brand</th>
                                         <th>Vendor</th>
                                         <th>Category</th>
+                                        <th>SubCategory</th>
+                                        <th>Status</th>
+                                        <th>Price</th>
+                                        <th>Discount Price</th>
                                         <th>Vendor Style Code</th>
                                         <th>Style Code</th>
                                         <th>Created By</th>
@@ -94,21 +95,24 @@
                                                 {{ $product->description }}
                                             </td>
                                             <td>
-                                                {{ $product->is_active ? 'Active' : 'Inactive' }}
-                                            <td>
-                                                {{ $product->price }}
-                                            </td>
-                                            <td>
-                                                {{ $product->discount_price }}
-                                            </td>
-                                            <td>
                                                 {{ $product->brand->name }}
                                             </td>
                                             <td>
                                                 {{ $product->vendor->name }}
                                             </td>
                                             <td>
-                                                {{ $product->category->name }}
+                                                {{ $product->subcategory->category->name }}
+                                            </td>
+                                            <td>
+                                                {{ $product->subcategory->name }}
+                                            </td>
+                                            <td>
+                                                {{ $product->is_active ? 'Active' : 'Inactive' }}
+                                            <td>
+                                                {{ $product->price }}
+                                            </td>
+                                            <td>
+                                                {{ $product->discount_price }}
                                             </td>
                                             <td>
                                                 {{ $product->vendor_style_code }}

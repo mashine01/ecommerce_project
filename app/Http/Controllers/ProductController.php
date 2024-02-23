@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
+use App\Models\SubCategory;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -149,7 +150,20 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        // Get all vendors, categories and brands
         $vendors = Vendor::all();
+        $categories = Category::all();
+        $brands = Brand::all();
+
+        // Get sub categories by category
+        $subCategoriesByCategory = [];
+        foreach ($categories as $category) {
+            $subCategoriesByCategory[$category->id] = SubCategory::select('name', 'id')
+                ->where('category_id', $category->id)
+                ->pluck('name', 'id');
+        }
+
+        // Get brands by vendor
         $brandsByVendor = [];
         foreach ($vendors as $vendor) {
             $brandsByVendor[$vendor->id] = Brand::select('name', 'id')
@@ -158,47 +172,62 @@ class ProductController extends Controller
         }
         return view('dashboard.products.edit')
             ->with('product', $product)
-            ->with('categories', Category::all())
+            ->with('categories', $categories)
             ->with('vendors', $vendors)
-            ->with('brands', Brand::all())
-            ->with('brandsByVendor', $brandsByVendor);
+            ->with('brands', $brands)
+            ->with('brandsByVendor', $brandsByVendor)
+            ->with('subCategoriesByCategory', $subCategoriesByCategory);
     }
 
     public function update(Product $product, Request $request)
     {
-        try 
-        {
+        try {
             $validate = Validator::make($request->all(), [
-            'name' => 'required',
-            'description' => 'required',
-            'category_id' => 'required',
-            'vendor_id' => 'required',
-            'brand_id' => 'required',
-            'price' => 'required',
-            'discount' => 'required',
-            'discount_price' => 'required',
-            'vendor_style_code' => 'required',
-            'style_code' => 'required',
-        ]);
+                'name' => 'required',
+                'description' => 'required',
+                'category_id' => 'required',
+                'sub_category_id' => 'required',
+                'vendor_id' => 'required',
+                'brand_id' => 'required',
+                'price' => 'required',
+                'discount' => 'required',
+                'discount_price' => 'required',
+                'vendor_style_code' => 'required',
+                'style_code' => 'required',
 
-        if ($validate->fails()) {
+            ],
+                [
+                    'name.required' => 'Product name is required',
+                    'description.required' => 'Product description is required',
+                    'category_id.required' => 'Category is required',
+                    'sub_category_id.required' => 'Sub category is required',
+                    'vendor_id.required' => 'Vendor is required',
+                    'brand_id.required' => 'Brand is required',
+                    'price.required' => 'Price is required',
+                    'discount.required' => 'Discount is required',
+                    'discount_price.required' => 'Discount price is required',
+                    'vendor_style_code.required' => 'Vendor style code is required',
+                    'style_code.required' => 'Style code is required',
+                ]);
+
+            if ($validate->fails()) {
+                return redirect(route('products'))
+                    ->withErrors($validate)
+                    ->withInput();
+            }
+
+            if ($request->input('is_active') == 'on') {
+                $is_active = 1;
+            } else {
+                $is_active = 0;
+            }
+            $validator = $validate->validated();
+            $validator['is_active'] = $is_active;
+            $product->update($validator);
+        } catch (\Illuminate\Database\QueryException $e) { // Error due to foreign key constraint
             return redirect(route('products'))
-                ->withErrors($validate)
-                ->withInput();
+                ->with('error', 'Product is being used, cannot update!');
         }
-
-        if ($request->input('is_active') == 'on') {
-            $is_active= 1;
-        } else {
-            $is_active = 0;
-        }
-        $validator = $validate->validated();
-        $validator['is_active'] = $is_active;
-        $product->update($validator);
-    } catch (\Illuminate\Database\QueryException $e) {
-        return redirect(route('products'))
-            ->with('error', 'Product is being used, cannot update!');
-    }
 
         // // Update product variant
         // $variant = ProductVariant::select('sku')->where('style_code', $product->style_code)->first();

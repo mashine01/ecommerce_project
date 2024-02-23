@@ -23,9 +23,10 @@ class ProductExport implements FromCollection, WithHeadings
         if ($this->includeData) {
             $selectedColumns = [
                 'products.name as name',
-                'description',
+                'products.description as description',
                 'brands.name as brand_name',
                 'categories.name as category_name',
+                'subcategories.name as subcategory_name',
                 'price',
                 'discount',
                 'discount_price',
@@ -36,6 +37,7 @@ class ProductExport implements FromCollection, WithHeadings
                 ->select($selectedColumns)
                 ->join('brands', 'products.brand_id', '=', 'brands.id')
                 ->join('categories', 'products.category_id', '=', 'categories.id')
+                ->join('subcategories', 'products.sub_category_id', '=', 'subcategories.id')
                 ->get()
             );
         }
@@ -49,6 +51,7 @@ class ProductExport implements FromCollection, WithHeadings
             'Description',
             'Brand Name',
             'Category Name',
+            'Subcategory Name',
             'Price',
             'Discount',
             'Discount Price',

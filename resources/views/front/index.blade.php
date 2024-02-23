@@ -478,7 +478,6 @@
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
     @include('front.layout.mobile')
-    @include('front.layout.signin_register_modal')
 
 
     {{-- <div class="container newsletter-popup-container mfp-hide" id="newsletter-popup-form">

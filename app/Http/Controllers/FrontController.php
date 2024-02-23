@@ -6,17 +6,18 @@ use App\Models\Banner;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductDetail;
 use App\Models\ProductVariant;
 use App\Models\SubCategory;
 use App\Models\TopSelling;
 use App\Models\Trending;
 use App\Models\TrendingCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
+use Spatie\Color\Hex;
 
 class FrontController extends Controller
 {
+
+
 
     public function index()
     {
@@ -49,5 +50,41 @@ class FrontController extends Controller
     public function account()
     {
         return view('front.account.dashboard');
+    }
+
+    public function category(Request $request)
+    {    
+        $category = $request->category;
+        $subcategory = $request->subcategory;        
+        $subcategoryName = SubCategory::where('id', $subcategory)->value('name');
+        $categoryName = Category::where('id', $category)->value('name');
+        $colours = ProductVariant::pluck('colour')->unique();
+        $sizes = ProductVariant::pluck('size')->unique();
+        $brands = Brand::all()->unique('name');
+        $products = Product::where('sub_category_id', $subcategory)->paginate(9);
+
+        if ($request->ajax()) {
+            // Retrieve filter parameters from the request
+            $brands = $request->input('data');
+
+            // Query products based on the filters
+            $query = Product::query();
+            if (!empty($brands)) {
+                $query->whereIn('brand_id', $brands);
+            }
+
+            $filteredProducts = $query->paginate(9);
+            return response()->json(['products' => $filteredProducts]);
+        }
+
+        return view('front.category')
+            ->with('products', $products)
+            ->with('brands', $brands)
+            ->with('colours', $colours)
+            ->with('sizes', $sizes)
+            ->with('categoryName', $categoryName)
+            ->with('subcategoryName', $subcategoryName)
+            ->with('category', $category)
+            ->with('subcategory', $subcategory);
     }
 }

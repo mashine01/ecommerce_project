@@ -19,13 +19,14 @@ class Product extends Model
         'right_image',
         'vendor_id',
         'brand_id',
+        'category_id',
+        'sub_category_id',
         'price',
         'discount',
         'discount_price',
-        'style_code',
         'vendor_style_code',
-        'category_id',
-        'created_by',
+        'style_code',
+        'created_by',        
     ];
 
     public function variants() {
@@ -40,8 +41,8 @@ class Product extends Model
         return $this->belongsTo(Brand::class, 'brand_id', 'id');
     }
 
-    public function category() {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+    public function subcategory() {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id', 'id');
     }
 
     public function trendings() {
