@@ -313,6 +313,7 @@
                 var products = brands.products;
                 console.log(products)
                 $('.products_data_append').empty();
+                $('.toolbox-info span').text(products.length + ' Products');
                 products.forEach(function(product) {
                     var differenceInMilliseconds = Date.now() - new Date(product.created_at)
                         .getTime();

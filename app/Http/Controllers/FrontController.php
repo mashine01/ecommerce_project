@@ -159,6 +159,25 @@ class FrontController extends Controller
                 }
             }
 
+            $logfile = 'log.txt';
+
+            // Get the SQL query
+            $sql = $query->toSql();
+            
+            // Get the bindings
+            $bindings = $query->getBindings();
+            
+            // Bind the parameters to the query
+            foreach ($bindings as $binding) {
+                $value = is_numeric($binding) ? $binding : "'{$binding}'";
+                $sql = preg_replace('/\?/', $value, $sql, 1);
+            }
+            
+            // Construct the log message
+            $logMessage = "SQL Query: " . $sql . "\n";
+            
+            // Append the log message to the file
+            file_put_contents($logfile, $logMessage, FILE_APPEND);
 
             // Retrieve the filtered products
             $filteredProducts = $query->with('subcategory.category')->get();

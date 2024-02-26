@@ -304,7 +304,7 @@
         console.log(sortBy);
         // AJAX request
         $.ajax({
-            url: "{{ route('category', ['category' => $category, 'subcategory' => $subcategory]) }}",
+            url: "{{ route('subcategory', ['category' => $category, 'subcategory' => $subcategory]) }}",
             type: 'GET',
             dataType: 'json',
             data: {
@@ -319,6 +319,7 @@
                 var products = brands.products;
                 console.log(products)
                 $('.products_data_append').empty();
+                $('.toolbox-info span').text(products.length + ' Products');
                 products.forEach(function(product) {
                     var differenceInMilliseconds = Date.now() - new Date(product.created_at)
                         .getTime();
@@ -389,6 +390,7 @@
         });
     }
 
+    updateProducts();
     function clearFilters() {
         $(".filter-item input[type='checkbox']").prop('checked', false);
         updateProducts();
