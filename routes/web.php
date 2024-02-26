@@ -30,7 +30,8 @@ use App\Http\Controllers\SubCategoryController;
 Route::get('/index', [FrontController::class, 'index'])->name('index');
 Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
 Route::get('/account', [FrontController::class, 'account'])->name('account');
-Route::get('/category/{category}/{subcategory}', [FrontController::class, 'category'])->name('category');
+Route::get('/{category}', [FrontController::class, 'category'])->name('category');
+Route::get('/{category}/{subcategory}', [FrontController::class, 'subcategory'])->name('subcategory');
 Route::redirect('/', '/index');
 
 Route::middleware(['auth'])->group(function () {

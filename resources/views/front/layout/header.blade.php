@@ -191,7 +191,9 @@
                             <ul class="menu-vertical sf-arrows">
                                 @foreach ($categories as $category)
                                     @if ($category->show_on_side_menu == true)
-                                        <li><a href="#">{{ $category->name }}</a></li>
+                                        <li>
+                                            <a href="{{ route('category', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                                        </li>
                                     @endif
                                 @endforeach
                             </ul><!-- End .menu-vertical -->
@@ -216,7 +218,7 @@
                                                             <ul>
                                                                 @foreach ($subCategories->where('category_id', $category->id) as $subCategory)
                                                                     <li><a
-                                                                            href="{{ route('category', ['category' => $category->id, 'subcategory' => $subCategory->id]) }}">{{ $subCategory->name }}</a>
+                                                                            href="{{ route('subcategory', ['category' => $category->id, 'subcategory' => $subCategory->id]) }}">{{ $subCategory->name }}</a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>

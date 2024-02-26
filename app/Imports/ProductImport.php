@@ -27,7 +27,6 @@ class ProductImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
             "name",
             "description",
             "brand_name",
-            "category_name",
             "subcategory_name",
             "price",
             "discount",
@@ -43,7 +42,6 @@ class ProductImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
                     'name' => 'required',
                     'description' => 'required',
                     'brand_name' => 'required',
-                    'category_name' => 'required',
                     'subcategory_name' => 'required',
                     'price' => 'required|numeric',
                     'discount' => 'required|numeric',
@@ -54,7 +52,6 @@ class ProductImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
                     'name.required' => 'Name is required',
                     'description.required' => 'Description is required',
                     'brand_name.required' => 'Brand name is required',
-                    'category_name.required' => 'Category name is required',
                     'subcategory_name.required' => 'Subcategory name is required',
                     'price.required' => 'Price is required',
                     'price.numeric' => 'Price must be a number',
@@ -71,7 +68,6 @@ class ProductImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
             }
 
             $brand = verifyDataExists(Brand::class, "name", $row["brand_name"]);
-            $category = verifyDataExists(Category::class, "name", $row["category_name"]);
             $subcategory = verifyDataExists(SubCategory::class, "name", $row["subcategory_name"]);
 
             $style_code = strtoupper(substr($row['brand_name'], 0, 2))
@@ -83,7 +79,6 @@ class ProductImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
                 [
                     'vendor_id' => $brand->vendor->id,
                     'brand_id' => $brand->id,
-                    'category_id' => $category->id,
                     'sub_category_id' => $subcategory->id,
                     'name' => $row['name'],
                     'description' => $row['description'],

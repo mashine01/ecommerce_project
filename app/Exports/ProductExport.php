@@ -25,7 +25,6 @@ class ProductExport implements FromCollection, WithHeadings
                 'products.name as name',
                 'products.description as description',
                 'brands.name as brand_name',
-                'categories.name as category_name',
                 'subcategories.name as subcategory_name',
                 'price',
                 'discount',
@@ -33,10 +32,9 @@ class ProductExport implements FromCollection, WithHeadings
                 'vendor_style_code',
             ];
 
-            return(Product::with('brand:id,name', 'category:id,name')
+            return(Product::with('brand:id,name', 'subcategory:id,name')
                 ->select($selectedColumns)
                 ->join('brands', 'products.brand_id', '=', 'brands.id')
-                ->join('categories', 'products.category_id', '=', 'categories.id')
                 ->join('subcategories', 'products.sub_category_id', '=', 'subcategories.id')
                 ->get()
             );
@@ -50,7 +48,6 @@ class ProductExport implements FromCollection, WithHeadings
             'Name',
             'Description',
             'Brand Name',
-            'Category Name',
             'Subcategory Name',
             'Price',
             'Discount',

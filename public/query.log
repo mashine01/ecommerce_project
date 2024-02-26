@@ -1,0 +1,1 @@
+select * from `products` where `price` between '269' and '279' order by `created_at` desc

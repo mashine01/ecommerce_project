@@ -10,14 +10,15 @@
         <main class="main">
             <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
                 <div class="container">
-                    <h1 class="page-title">{{ $categoryName }}<span>Shop</span></h1>
+                    <h1 class="page-title">{{ $subcategoryName }}<span>Shop</span></h1>
                 </div><!-- End .container -->
             </div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
                 <div class="container">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ $categoryName }}</li>
+                        <li class="breadcrumb-item"><a href="">{{ $categoryName }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ $subcategoryName }}</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
@@ -28,7 +29,7 @@
                             <div class="toolbox">
                                 <div class="toolbox-left">
                                     <div class="toolbox-info">
-                                        Showing <span>{{ $products->count() }}</span>
+                                        Showing <span>{{ $products->count() }} </span>
                                         Products
                                     </div><!-- End .toolbox-info -->
                                 </div><!-- End .toolbox-left -->
@@ -81,6 +82,10 @@
                                                     <div class="product-cat">
                                                         <a
                                                             href="#">{{ $product->subcategory->category->name }}</a>
+                                                    </div><!-- End .product-cat -->
+                                                    <div class="product-cat">
+                                                        <a
+                                                            href="#">{{ $product->subcategory->name }}</a>
                                                     </div><!-- End .product-cat -->
                                                     <h3 class="product-title"><a
                                                             href="product.html">{{ $product->name }}</a></h3>
@@ -268,6 +273,7 @@
 
     function updateProducts() {
         var category = "{{ $categoryName }}";
+        var subcategory = "{{ $subcategoryName }}";
         var brands = [];
         var prices = [];
         var sizes = [];
@@ -298,7 +304,7 @@
         console.log(sortBy);
         // AJAX request
         $.ajax({
-            url: "{{ route('category', ['category' => $category]) }}",
+            url: "{{ route('category', ['category' => $category, 'subcategory' => $subcategory]) }}",
             type: 'GET',
             dataType: 'json',
             data: {
