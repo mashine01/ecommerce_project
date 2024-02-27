@@ -10,14 +10,14 @@
         <main class="main">
             <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
                 <div class="container">
-                    <h1 class="page-title">{{ $categoryName }}<span>Shop</span></h1>
+                    <h1 class="page-title">{{ $category->name }}<span>Shop</span></h1>
                 </div><!-- End .container -->
             </div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
                 <div class="container">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ $categoryName }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
@@ -37,7 +37,8 @@
                                     <div class="toolbox-sort">
                                         <label for="sortby">Sort by:</label>
                                         <div class="select-custom">
-                                            <select onchange="updateProducts();" name="sortby" id="sortby" class="form-control">
+                                            <select onchange="updateProducts();" name="sortby" id="sortby"
+                                                class="form-control">
                                                 <option value="popularity" selected="selected">Most Popular</option>
                                                 <option value="rating">Most Rated</option>
                                             </select>
@@ -48,31 +49,31 @@
 
                             <div class="products mb-3">
                                 <div class="row justify-content-center products_data_append">
-                                    @foreach ($products as $product)
+                                    {{-- @foreach ($products as $product)
                                         <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                             <div class="product product-7 text-center">
                                                 <figure class="product-media">
                                                     @if ($product->created_at->diffInDays() < 7)
                                                         <span class="product-label label-new">New</span>
                                                     @endif
-                                                    <a href="product.html">
+                                                    <a
+                                                        href="{{ route('product', ['product' => $product->slug, 'category' => $category->slug, 'subcategory' => $product->subcategory->slug]) }}">
                                                         <img src='{{ asset($product->front_image) }}'
                                                             class="product-image">
                                                     </a>
-
                                                     <div class="product-action-vertical">
-                                                        <a href="#"
+                                                        <a href=""
                                                             class="btn-product-icon btn-wishlist btn-expandable"><span>add
                                                                 to wishlist</span></a>
                                                         <a href="popup/quickView.html"
                                                             class="btn-product-icon btn-quickview"
                                                             title="Quick view"><span>Quick view</span></a>
-                                                        <a href="#" class="btn-product-icon btn-compare"
+                                                        <a href="" class="btn-product-icon btn-compare"
                                                             title="Compare"><span>Compare</span></a>
                                                     </div><!-- End .product-action-vertical -->
 
                                                     <div class="product-action">
-                                                        <a href="#" class="btn-product btn-cart"><span>add to
+                                                        <a href="" class="btn-product btn-cart"><span>add to
                                                                 cart</span></a>
                                                     </div><!-- End .product-action -->
                                                 </figure><!-- End .product-media -->
@@ -80,7 +81,7 @@
                                                 <div class="product-body">
                                                     <div class="product-cat">
                                                         <a
-                                                            href="#">{{ $product->subcategory->category->name }}</a>
+                                                            href="">{{ $product->subcategory->category->name }}</a>
                                                     </div><!-- End .product-cat -->
                                                     <h3 class="product-title"><a
                                                             href="product.html">{{ $product->name }}</a></h3>
@@ -98,7 +99,7 @@
                                                 </div><!-- End .product-body -->
                                             </div><!-- End .product -->
                                         </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-                                    @endforeach
+                                    @endforeach --}}
                                 </div><!-- End .row -->
                             </div><!-- End .products -->
                         </div><!-- End .col-lg-9 -->
@@ -106,7 +107,8 @@
                             <div class="sidebar sidebar-shop">
                                 <div class="widget widget-clean">
                                     <label>Filters:</label>
-                                    <a onclick="clearFilters();" href="#" class="sidebar-filter-clear">Clean All</a>
+                                    <a onclick="clearFilters();" href="" class="sidebar-filter-clear">Clean
+                                        All</a>
                                 </div><!-- End .widget widget-clean -->
 
                                 <div class="widget widget-collapsible">
@@ -267,7 +269,6 @@
     })
 
     function updateProducts() {
-        var category = "{{ $categoryName }}";
         var brands = [];
         var prices = [];
         var sizes = [];
@@ -295,10 +296,9 @@
             }
         });
 
-        console.log(sortBy);
         // AJAX request
         $.ajax({
-            url: "{{ route('category', ['category' => $category]) }}",
+            url: "{{ route('category', ['category' => $category->slug]) }}",
             type: 'GET',
             dataType: 'json',
             data: {
@@ -311,10 +311,15 @@
 
             success: function(brands) {
                 var products = brands.products;
-                console.log(products)
                 $('.products_data_append').empty();
                 $('.toolbox-info span').text(products.length + ' Products');
                 products.forEach(function(product) {
+                    var productRoute =
+                        "{{ route('product', ['product' => ':product', 'category' => ':category', 'subcategory' => ':subcategory']) }}";
+                    productRoute = productRoute
+                        .replace(':product', product.slug)
+                        .replace(':category', product.subcategory.category.slug)
+                        .replace(':subcategory', product.subcategory.slug);
                     var differenceInMilliseconds = Date.now() - new Date(product.created_at)
                         .getTime();
                     var newLabel = differenceInMilliseconds < 7 * 24 * 60 * 60 * 1000 ?
@@ -324,23 +329,23 @@
                                             <div class="product product-7 text-center">
                                                 <figure class="product-media">
                                                     ${newLabel}
-                                                    <a href="product.html">
+                                                    <a href="${productRoute}">
                                                         <img src='${product.front_image}' class="product-image">
                                                     </a>
 
                                                     <div class="product-action-vertical">
-                                                        <a href="#"
+                                                        <a href=""
                                                             class="btn-product-icon btn-wishlist btn-expandable"><span>add
                                                                 to wishlist</span></a>
                                                         <a href="popup/quickView.html"
                                                             class="btn-product-icon btn-quickview"
                                                             title="Quick view"><span>Quick view</span></a>
-                                                        <a href="#" class="btn-product-icon btn-compare"
+                                                        <a href="" class="btn-product-icon btn-compare"
                                                             title="Compare"><span>Compare</span></a>
                                                     </div><!-- End .product-action-vertical -->
 
                                                     <div class="product-action">
-                                                        <a href="#" class="btn-product btn-cart"><span>add to
+                                                        <a href="" class="btn-product btn-cart"><span>add to
                                                                 cart</span></a>
                                                     </div><!-- End .product-action -->
                                                 </figure><!-- End .product-media -->
@@ -348,7 +353,7 @@
                                                 <div class="product-body">
                                                     <div class="product-cat">
                                                         <a
-                                                            href="#">${product.subcategory.category.name}</a>
+                                                            href="">${product.subcategory.category.name}</a>
                                                     </div><!-- End .product-cat -->
                                                     <h3 class="product-title"><a
                                                             href="product.html">${product.name}</a></h3>
@@ -377,13 +382,14 @@
                     errorMessage = xhr.responseJSON.message;
                 } else {
                     errorMessage =
-                    error; // If responseJSON or message is not available, fallback to the error parameter
+                        error; // If responseJSON or message is not available, fallback to the error parameter
                 }
                 console.error(errorMessage); // Log the error message
             }
         });
     }
 
+    updateProducts();
     function clearFilters() {
         $(".filter-item input[type='checkbox']").prop('checked', false);
         updateProducts();

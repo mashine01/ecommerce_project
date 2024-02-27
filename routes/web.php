@@ -26,14 +26,6 @@ use App\Http\Controllers\SubCategoryController;
 |
 */
 
-
-Route::get('/index', [FrontController::class, 'index'])->name('index');
-Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
-Route::get('/account', [FrontController::class, 'account'])->name('account');
-Route::get('/{category}', [FrontController::class, 'category'])->name('category');
-Route::get('/{category}/{subcategory}', [FrontController::class, 'subcategory'])->name('subcategory');
-Route::redirect('/', '/index');
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/account', [FrontController::class, 'account'])->name('account');
 });
@@ -117,6 +109,15 @@ Route::middleware('IsAdmin')->group(function () {
     Route::delete('/dashboard/topSelling/delete', [TopSellingController::class, 'delete'])->name('topSelling.delete');
 });
 
+
+Route::get('/index', [FrontController::class, 'index'])->name('index');
+Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
+Route::get('/account', [FrontController::class, 'account'])->name('account');
+Route::get('/{category}', [FrontController::class, 'category'])->name('category');
+Route::get('/{category}/{subcategory}', [FrontController::class, 'subcategory'])->name('subcategory');
+Route::get('/{category}/{subcategory}/{product}', [FrontController::class, 'product'])->name('product');
+Route::redirect('/', '/index');
+
 require __DIR__ . '/auth.php';
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
